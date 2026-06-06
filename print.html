@@ -58,7 +58,9 @@ body{font-family:"Spline Sans",sans-serif;color:var(--ink);background:#e9dcbf;li
   body{background:#fff}
   .toolbar{display:none}
   .sheets{margin:0;max-width:none;padding:0}
-  .sheet{box-shadow:none;border-radius:0;margin:0;page-break-after:always;break-after:page}
+  .sheet{box-shadow:none;border-radius:0;margin:0;page-break-after:always;break-after:page;
+    min-height:277mm;display:flex;flex-direction:column}
+  .sheet .grid{flex:1;align-content:start}
   .sheet:last-child{page-break-after:auto}
   .team{border-color:#ddd}
   @page{size:A4 portrait;margin:10mm}

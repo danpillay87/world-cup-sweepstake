@@ -400,8 +400,8 @@ document.addEventListener("keydown",e=>{
 /* ---------------- Init ---------------- */
 (async function init(){
   buildPills();
-  try{ if(typeof window.storage!=="undefined") await load(); else storageOK=false; }catch(e){storageOK=false;}
-  if(!storageOK) document.getElementById("savehint").textContent="Progress is kept for this session only.";
+  try{ await load(); }catch(e){ storageOK=false; }
+  if(!storageOK){ const sh=document.getElementById("savehint"); if(sh) sh.textContent="Progress is kept for this session only."; }
   renderWall();
   renderReveal();
 })();

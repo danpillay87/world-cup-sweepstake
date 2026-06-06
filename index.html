@@ -339,8 +339,8 @@ function updateProgress(){
   const l=document.getElementById("plabel");
   l.textContent=n===48?"🏆 you know them all!":n>=24?"halfway there — keep going":"teams learned";
 }
-async function load(){try{const r=await window.storage.get("wc26-learned");if(r&&r.value)learned=new Set(JSON.parse(r.value));}catch(e){}}
-async function save(){if(!storageOK)return;try{await window.storage.set("wc26-learned",JSON.stringify([...learned]));}catch(e){storageOK=false;document.getElementById("savehint").textContent="Progress is kept for this session only.";}}
+async function load(){try{const v=localStorage.getItem("wc26-learned");if(v)learned=new Set(JSON.parse(v));}catch(e){}}
+async function save(){try{localStorage.setItem("wc26-learned",JSON.stringify([...learned]));}catch(e){storageOK=false;const sh=document.getElementById("savehint");if(sh)sh.textContent="Progress is kept for this session only.";}}
 document.getElementById("search").addEventListener("input",e=>{q=e.target.value;renderWall();});
 
 /* ---------------- Reveal ---------------- */

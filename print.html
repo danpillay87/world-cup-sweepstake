@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>World Cup 2026 — Printable Sweepstake Sheets</title>
+<link rel="icon" href="icon.svg">
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,700;12..96,800&family=Spline+Sans:wght@400;500;600;700&display=swap');
+
+:root{
+  --paper:#f3ead6; --ink:#1b2236; --ink-soft:#54597a; --line:#c9b78f; --gold:#c8922b;
+  --mum:#2563eb; --dad:#15803d; --eli:#d9881f; --isaac:#d4322c;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:"Spline Sans",sans-serif;color:var(--ink);background:#e9dcbf;line-height:1.4}
+
+/* screen toolbar */
+.toolbar{position:sticky;top:0;z-index:50;display:flex;gap:12px;align-items:center;justify-content:center;
+  padding:14px;background:rgba(243,234,214,.95);border-bottom:1.5px solid var(--line)}
+.toolbar p{font-size:13px;color:var(--ink-soft)}
+.btn{font-family:"Spline Sans";font-weight:700;font-size:15px;color:#fff;background:var(--ink);
+  border:none;border-radius:99px;padding:11px 26px;cursor:pointer}
+.btn:hover{opacity:.9}
+
+.sheets{max-width:850px;margin:20px auto;padding:0 16px}
+
+/* one A4 sheet per person */
+.sheet{background:#fff;border-radius:6px;box-shadow:0 6px 24px rgba(0,0,0,.18);
+  padding:0;margin:0 auto 26px;overflow:hidden;width:100%;}
+.sheet-head{padding:22px 26px 18px;color:#fff;position:relative}
+.sheet-head .kick{font-size:11px;text-transform:uppercase;letter-spacing:.28em;font-weight:600;opacity:.92}
+.sheet-head h2{font-family:"Bricolage Grotesque";font-weight:800;font-size:40px;line-height:1;margin:4px 0 6px;letter-spacing:-.02em}
+.sheet-head .sub{font-size:13px;opacity:.95;font-weight:500}
+.sheet-head .mascot{position:absolute;right:22px;top:14px;width:64px;height:64px}
+.sheet-head .buddy{position:absolute;right:96px;top:34px;font-size:12px;font-weight:700;opacity:.95;text-align:right;max-width:120px;line-height:1.25}
+
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;padding:14px}
+.team{border:1.5px solid #e4e4ea;border-radius:9px;padding:9px 10px;position:relative;display:flex;flex-direction:column;gap:3px}
+.team .top{display:flex;align-items:center;gap:8px}
+.team .code{font-family:"Bricolage Grotesque";font-weight:800;font-size:17px;letter-spacing:.02em;
+  color:#fff;border-radius:6px;padding:3px 7px;min-width:40px;text-align:center}
+.team .cn{font-weight:700;font-size:15px;line-height:1.1}
+.team .grp{margin-left:auto;font-size:10px;font-weight:700;color:var(--ink-soft);
+  border:1.5px solid #e4e4ea;border-radius:5px;padding:2px 6px;white-space:nowrap}
+.team .player{font-size:11.5px;font-weight:600;color:#333}
+.team .fact{font-size:10px;color:#666;line-height:1.3}
+.team .dish{font-size:10px;color:#888;font-style:italic}
+.team .track{display:flex;align-items:center;gap:5px;margin-top:3px}
+.team .track .lbl{font-size:8.5px;text-transform:uppercase;letter-spacing:.08em;color:#aaa;font-weight:700}
+.team .dot{width:11px;height:11px;border-radius:50%;border:1.5px solid #ccc}
+.team .star-box{margin-left:auto;width:13px;height:13px;border:1.5px solid #bbb;border-radius:3px}
+
+.legend{padding:0 14px 16px;font-size:10.5px;color:var(--ink-soft);display:flex;gap:16px;flex-wrap:wrap}
+.legend b{color:var(--ink)}
+
+@media print{
+  body{background:#fff}
+  .toolbar{display:none}
+  .sheets{margin:0;max-width:none;padding:0}
+  .sheet{box-shadow:none;border-radius:0;margin:0;page-break-after:always;break-after:page}
+  .sheet:last-child{page-break-after:auto}
+  .team{border-color:#ddd}
+  @page{size:A4 portrait;margin:10mm}
+}
+</style>
+</head>
+<body>
+
+<div class="toolbar">
+  <button class="btn" onclick="window.print()">🖨️ Print all sheets</button>
+  <p>One sheet per person · tick a circle for each group game · star box = made it through</p>
+</div>
+
+<div class="sheets" id="sheets"></div>
+
+<script>
+const COLORS={Mum:'#2563eb',Dad:'#15803d','Eli & Reachy':'#d9881f',Isaac:'#d4322c'};
+// owner label used on sheets ↔ data owner key
+const SHEETS=[
+  {label:'Mum', owner:'Mum'},
+  {label:'Dad', owner:'Dad'},
+  {label:'Eli & Reachy', owner:'Eli'},
+  {label:'Isaac', owner:'Isaac'},
+];
+
+const TEAMS=[
+  {o:'Mum',n:'Portugal',c:'PT',g:'K',p:'Cristiano Ronaldo',fact:'All-time top scorer in men’s international football.',dish:'Pastéis de nata'},
+  {o:'Mum',n:'Mexico',c:'MX',g:'A',p:'Santiago Giménez',fact:'First nation to host three World Cups (1970, 1986, 2026).',dish:'Tacos al pastor'},
+  {o:'Mum',n:'Argentina',c:'AR',g:'J',p:'Lionel Messi',fact:'Reigning world champions (2022).',dish:'Asado'},
+  {o:'Mum',n:'Senegal',c:'SN',g:'I',p:'Sadio Mané',fact:'African champions in 2022.',dish:'Thiéboudienne'},
+  {o:'Mum',n:'Switzerland',c:'CH',g:'B',p:'Granit Xhaka',fact:'Home of FIFA, in Zurich.',dish:'Fondue'},
+  {o:'Mum',n:'Austria',c:'AT',g:'J',p:'David Alaba',fact:'Third at the 1954 World Cup.',dish:'Wiener schnitzel'},
+  {o:'Mum',n:'Egypt',c:'EG',g:'G',p:'Mohamed Salah',fact:'Record 7-time African Cup winners.',dish:'Koshari'},
+  {o:'Mum',n:'Uzbekistan',c:'UZ',g:'K',p:'Eldor Shomurodov',fact:'Their very first World Cup.',dish:'Plov'},
+  {o:'Mum',n:'Saudi Arabia',c:'SA',g:'H',p:'Salem Al-Dawsari',fact:'Beat Argentina in 2022.',dish:'Kabsa'},
+  {o:'Mum',n:'DR Congo',c:'CD',g:'K',p:'Yoane Wissa',fact:'First World Cup since 1974.',dish:'Moambe chicken'},
+  {o:'Mum',n:'Cape Verde',c:'CV',g:'H',p:'Ryan Mendes',fact:'Islands of ~500k at their first World Cup.',dish:'Cachupa'},
+  {o:'Mum',n:'Czechia',c:'CZ',g:'A',p:'Patrik Schick',fact:'Twice runners-up as Czechoslovakia.',dish:'Svíčková'},
+
+  {o:'Dad',n:'Germany',c:'DE',g:'E',p:'Jamal Musiala',fact:'Four-time world champions.',dish:'Bratwurst'},
+  {o:'Dad',n:'Brazil',c:'BR',g:'C',p:'Vinícius Júnior',fact:'Record five World Cup titles.',dish:'Feijoada'},
+  {o:'Dad',n:'Belgium',c:'BE',g:'G',p:'Kevin De Bruyne',fact:'Third place in 2018.',dish:'Frites'},
+  {o:'Dad',n:'Australia',c:'AU',g:'D',p:'Mat Ryan',fact:'The Socceroos.',dish:'Meat pie'},
+  {o:'Dad',n:'Iran',c:'IR',g:'G',p:'Mehdi Taremi',fact:'Among Asia’s most experienced sides.',dish:'Chelo kabab'},
+  {o:'Dad',n:'Colombia',c:'CO',g:'K',p:'Luis Díaz',fact:'Quarter-finalists in 2014.',dish:'Bandeja paisa'},
+  {o:'Dad',n:'Scotland',c:'SCO',g:'C',p:'Andrew Robertson',fact:'Played the first-ever international (1872).',dish:'Haggis'},
+  {o:'Dad',n:'Tunisia',c:'TN',g:'F',p:'Hannibal Mejbri',fact:'Beat France in 2022.',dish:'Brik'},
+  {o:'Dad',n:'South Africa',c:'ZA',g:'A',p:'Percy Tau',fact:'Hosted the first African World Cup (2010).',dish:'Bobotie'},
+  {o:'Dad',n:'Iraq',c:'IQ',g:'I',p:'Aymen Hussein',fact:'Won the 2007 Asian Cup.',dish:'Masgouf'},
+  {o:'Dad',n:'New Zealand',c:'NZ',g:'G',p:'Chris Wood',fact:'Unbeaten at the 2010 World Cup.',dish:'Hāngī'},
+  {o:'Dad',n:'Bosnia & Herzegovina',c:'BA',g:'B',p:'Edin Džeko',fact:'First World Cup in 2014.',dish:'Ćevapi'},
+
+  {o:'Eli',n:'Canada',c:'CA',g:'B',p:'Alphonso Davies',fact:'Co-hosts — only their 3rd World Cup.',dish:'Poutine'},
+  {o:'Eli',n:'England',c:'ENG',g:'L',p:'Jude Bellingham',fact:'Last won the trophy in 1966.',dish:'Fish & chips'},
+  {o:'Eli',n:'France',c:'FR',g:'I',p:'Kylian Mbappé',fact:'Champions 2018, runners-up 2022.',dish:'Coq au vin'},
+  {o:'Eli',n:'Morocco',c:'MA',g:'C',p:'Achraf Hakimi',fact:'First African semi-finalists (2022).',dish:'Tagine'},
+  {o:'Eli',n:'Japan',c:'JP',g:'F',p:'Kaoru Mitoma',fact:'Fans clean the stadium after games.',dish:'Sushi'},
+  {o:'Eli',n:'Ecuador',c:'EC',g:'E',p:'Moisés Caicedo',fact:'Play home games at 2,800m altitude.',dish:'Encebollado'},
+  {o:'Eli',n:'Norway',c:'NO',g:'I',p:'Erling Haaland',fact:'Back since 1998.',dish:'Brunost'},
+  {o:'Eli',n:'Ivory Coast',c:'CI',g:'E',p:'Sébastien Haller',fact:'African champions 2023.',dish:'Attiéké'},
+  {o:'Eli',n:'Algeria',c:'DZ',g:'J',p:'Riyad Mahrez',fact:'Stunned West Germany in 1982.',dish:'Couscous'},
+  {o:'Eli',n:'Jordan',c:'JO',g:'J',p:'Mousa Al-Tamari',fact:'First World Cup; 2023 Asian Cup finalists.',dish:'Mansaf'},
+  {o:'Eli',n:'Curaçao',c:'CW',g:'E',p:'Leandro Bacuna',fact:'Smallest nation ever to qualify.',dish:'Keshi yena'},
+  {o:'Eli',n:'Ghana',c:'GH',g:'L',p:'Mohammed Kudus',fact:'A penalty from the 2010 semis.',dish:'Jollof rice'},
+
+  {o:'Isaac',n:'Spain',c:'ES',g:'H',p:'Lamine Yamal',fact:'European champions (Euro 2024).',dish:'Paella'},
+  {o:'Isaac',n:'USA',c:'US',g:'D',p:'Christian Pulisic',fact:'Co-hosts; first men’s WC since 1994.',dish:'Cheeseburger'},
+  {o:'Isaac',n:'Netherlands',c:'NL',g:'F',p:'Virgil van Dijk',fact:'Three-time runners-up, never won.',dish:'Stroopwafel'},
+  {o:'Isaac',n:'Uruguay',c:'UY',g:'H',p:'Federico Valverde',fact:'Won the first World Cup (1930).',dish:'Chivito'},
+  {o:'Isaac',n:'Croatia',c:'HR',g:'L',p:'Luka Modrić',fact:'2018 finalists, 2022 semis.',dish:'Peka'},
+  {o:'Isaac',n:'South Korea',c:'KR',g:'A',p:'Son Heung-min',fact:'Semi-finalists as hosts in 2002.',dish:'Bibimbap'},
+  {o:'Isaac',n:'Panama',c:'PA',g:'L',p:'Adalberto Carrasquilla',fact:'Only their 2nd-ever World Cup.',dish:'Sancocho'},
+  {o:'Isaac',n:'Paraguay',c:'PY',g:'D',p:'Miguel Almirón',fact:'“Sopa paraguaya” is actually cornbread.',dish:'Chipá'},
+  {o:'Isaac',n:'Qatar',c:'QA',g:'B',p:'Akram Afif',fact:'Hosted the 2022 World Cup.',dish:'Machboos'},
+  {o:'Isaac',n:'Haiti',c:'HT',g:'C',p:'Frantzdy Pierrot',fact:'Back since 1974.',dish:'Griot'},
+  {o:'Isaac',n:'Sweden',c:'SE',g:'F',p:'Alexander Isak',fact:'Third in 1950 and 1994.',dish:'Köttbullar'},
+  {o:'Isaac',n:'Türkiye',c:'TR',g:'D',p:'Arda Güler',fact:'Surprise third place in 2002.',dish:'Kebab & baklava'},
+];
+
+function reachyMascot(){
+  return `<svg class="mascot" viewBox="0 0 100 100">
+    <ellipse cx="50" cy="56" rx="33" ry="35" fill="#ffffff" opacity="0.95"/>
+    <ellipse cx="50" cy="63" rx="21" ry="22" fill="rgba(0,0,0,0.06)"/>
+    <circle cx="39" cy="50" r="6.5" fill="#1b2236"/><circle cx="61" cy="50" r="6.5" fill="#1b2236"/>
+    <circle cx="41" cy="48" r="1.6" fill="#fff"/><circle cx="63" cy="48" r="1.6" fill="#fff"/>
+    <path d="M40 62 q10 11 20 0" stroke="#1b2236" stroke-width="3.5" fill="none" stroke-linecap="round"/>
+    <line x1="50" y1="21" x2="50" y2="11" stroke="#fff" stroke-width="3"/><circle cx="50" cy="9" r="3.5" fill="#fff"/>
+  </svg>`;
+}
+
+function teamCard(t){
+  const color=COLORS[t.o] || (t.o==='Eli'?'#d9881f':'#333');
+  return `<div class="team">
+    <div class="top">
+      <span class="code" style="background:${color}">${t.c}</span>
+      <span class="cn">${t.n}</span>
+      <span class="grp">Grp ${t.g}</span>
+    </div>
+    <div class="player">⭐ ${t.p}</div>
+    <div class="fact">${t.fact}</div>
+    <div class="dish">🍽 ${t.dish}</div>
+    <div class="track">
+      <span class="lbl">Games</span>
+      <span class="dot"></span><span class="dot"></span><span class="dot"></span>
+      <span class="star-box" title="through to knockouts"></span>
+    </div>
+  </div>`;
+}
+
+const root=document.getElementById('sheets');
+root.innerHTML = SHEETS.map(s=>{
+  const color=COLORS[s.label];
+  const mine=TEAMS.filter(t=>t.o===s.owner);
+  const isEli=s.owner==='Eli';
+  return `<section class="sheet">
+    <div class="sheet-head" style="background:${color}">
+      <div class="kick">World Cup 2026 · Family Sweepstake</div>
+      <h2>${s.label}</h2>
+      <div class="sub">${mine.length} teams · USA · Canada · Mexico · 11 June – 19 July 2026</div>
+      ${isEli?reachyMascot()+`<div class="buddy">Reachy’s on your team! Ask me about your teams 🤖</div>`:''}
+    </div>
+    <div class="grid">${mine.map(teamCard).join('')}</div>
+    <div class="legend">
+      <span><b>How it works:</b> you own these 12 teams — whoever owns the World Cup winner wins the sweepstake!</span>
+      <span><b>○ ○ ○</b> tick each group game · <b>☐</b> tick if they reach the knockouts</span>
+    </div>
+  </section>`;
+}).join('');
+</script>
+</body>
+</html>

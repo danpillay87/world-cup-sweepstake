@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>World Cup 2026 — Family Sweepstake</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,700;12..96,800&family=Fraunces:ital,opsz,wght@1,9..144,400;1,9..144,500&family=Spline+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#f3ead6;--paper-2:#ede1c5;--ink:#1b2236;--ink-soft:#54597a;
+    --line:#c9b78f;--gold:#c8922b;
+    --mum:#2563eb;--dad:#15803d;--eli:#d9881f;--isaac:#d4322c;
+    --shadow:rgba(27,34,54,.18);
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth;scroll-padding-top:64px}
+  body{font-family:"Spline Sans",sans-serif;background:var(--paper);color:var(--ink);line-height:1.5;min-height:100vh;
+    background-image:radial-gradient(circle at 12% 18%,rgba(200,146,43,.07),transparent 40%),radial-gradient(circle at 88% 82%,rgba(37,99,235,.06),transparent 42%)}
+  body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:1;opacity:.5;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.035'/%3E%3C/svg%3E")}
+  .wrap{max-width:1180px;margin:0 auto;padding:0 20px 80px;position:relative;z-index:2}
+
+  /* ---- Nav ---- */
+  .nav{position:sticky;top:0;z-index:60;display:flex;gap:6px;justify-content:center;align-items:center;
+    padding:10px;background:rgba(243,234,214,.92);backdrop-filter:blur(8px);border-bottom:1.5px solid var(--line)}
+  .nav button{font-family:"Spline Sans";font-weight:600;font-size:14px;color:var(--ink);cursor:pointer;
+    border:1.5px solid var(--line);background:var(--paper-2);padding:8px 18px;border-radius:99px;display:flex;align-items:center;gap:8px;
+    transition:transform .15s,background .2s,color .2s}
+  .nav button:hover{transform:translateY(-2px)}
+  .nav button[aria-selected="true"]{background:var(--ink);color:#fff;border-color:transparent}
+
+  /* ---- Header ---- */
+  header{padding:40px 0 24px;text-align:center}
+  .kicker{font-family:"Spline Sans";text-transform:uppercase;letter-spacing:.32em;font-size:12px;font-weight:600;color:var(--gold);margin-bottom:10px}
+  h1{font-family:"Bricolage Grotesque";font-weight:800;font-size:clamp(36px,7.5vw,72px);line-height:.92;letter-spacing:-.02em;text-wrap:balance}
+  h1 .ball{display:inline-block;transform:translateY(4px);animation:spin 9s linear infinite}
+  @keyframes spin{to{transform:translateY(4px) rotate(360deg)}}
+  .sub{margin-top:14px;font-family:"Fraunces";font-style:italic;font-size:clamp(15px,2.4vw,19px);color:var(--ink-soft)}
+
+  /* ---- Progress (wallchart) ---- */
+  .progress-card{margin:28px auto 0;max-width:560px;background:var(--paper-2);border:1.5px solid var(--line);border-radius:16px;padding:18px 22px;box-shadow:0 10px 30px -18px var(--shadow)}
+  .progress-top{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:10px}
+  .progress-top strong{font-family:"Bricolage Grotesque";font-size:26px;font-weight:800}
+  .progress-top span{font-size:13px;color:var(--ink-soft);font-weight:500}
+  .bar{height:11px;border-radius:99px;background:rgba(27,34,54,.1);overflow:hidden}
+  .bar i{display:block;height:100%;width:0;border-radius:99px;background:linear-gradient(90deg,var(--gold),#e0b04e);transition:width .6s cubic-bezier(.2,.8,.2,1)}
+
+  /* ---- Controls ---- */
+  .controls{position:sticky;top:55px;z-index:20;padding:14px 0;background:linear-gradient(var(--paper) 72%,transparent)}
+  .search{width:100%;max-width:420px;margin:0 auto 16px;display:block;position:relative}
+  .search input{width:100%;padding:12px 16px 12px 42px;border:1.5px solid var(--line);border-radius:12px;background:var(--paper-2);font-family:"Spline Sans";font-size:15px;color:var(--ink);outline:none;transition:border-color .2s,box-shadow .2s}
+  .search input:focus{border-color:var(--gold);box-shadow:0 0 0 3px rgba(200,146,43,.18)}
+  .search svg{position:absolute;left:14px;top:50%;transform:translateY(-50%);opacity:.5}
+  .pills{display:flex;flex-wrap:wrap;gap:8px;justify-content:center}
+  .pill{border:1.5px solid var(--line);background:var(--paper-2);color:var(--ink);font-family:"Spline Sans";font-weight:600;font-size:14px;cursor:pointer;padding:8px 15px;border-radius:99px;display:inline-flex;align-items:center;gap:8px;transition:transform .15s,background .2s,border-color .2s,color .2s}
+  .pill:hover{transform:translateY(-2px)}
+  .pill .dot{width:10px;height:10px;border-radius:50%}
+  .pill .cnt{font-size:12px;color:var(--ink-soft);font-weight:500;font-variant-numeric:tabular-nums}
+  .pill[data-on="true"]{color:#fff;border-color:transparent}
+  .pill[data-on="true"] .cnt{color:rgba(255,255,255,.85)}
+  .pill.all[data-on="true"]{background:var(--ink)}
+  .pill.Mum[data-on="true"]{background:var(--mum)}
+  .pill.Dad[data-on="true"]{background:var(--dad)}
+  .pill.Eli[data-on="true"]{background:var(--eli)}
+  .pill.Isaac[data-on="true"]{background:var(--isaac)}
+
+  /* ---- Grid + Cards ---- */
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:18px;margin-top:8px}
+  .card{position:relative;background:var(--paper-2);border:1.5px solid var(--line);border-radius:18px;padding:20px 20px 18px;cursor:pointer;overflow:hidden;box-shadow:0 12px 28px -20px var(--shadow);transition:transform .2s cubic-bezier(.2,.8,.2,1),box-shadow .2s;animation:rise .5s both}
+  @keyframes rise{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+  .card:hover{transform:translateY(-5px) rotate(-.5deg);box-shadow:0 22px 40px -22px var(--shadow)}
+  .card::after{content:"";position:absolute;left:0;top:0;bottom:0;width:6px;background:var(--accent)}
+  .card .owner{position:absolute;top:14px;right:14px;font-size:10.5px;font-weight:600;text-transform:uppercase;letter-spacing:.1em;color:#fff;background:var(--accent);padding:3px 9px;border-radius:99px}
+  .flag{font-size:40px;line-height:1;display:block;margin-bottom:8px;filter:drop-shadow(0 2px 3px rgba(0,0,0,.15))}
+  .name{font-family:"Bricolage Grotesque";font-weight:800;font-size:23px;letter-spacing:-.01em;margin-bottom:14px;padding-right:54px}
+  .row{display:flex;gap:9px;margin-bottom:11px;font-size:13.5px}
+  .row .ic{flex:0 0 18px;opacity:.65;margin-top:1px}
+  .row .lbl{display:block;font-size:10px;text-transform:uppercase;letter-spacing:.1em;color:var(--ink-soft);font-weight:600;margin-bottom:1px}
+  .row.fact .txt{font-family:"Fraunces";font-style:italic;font-size:14.5px;color:var(--ink)}
+  .player-name{font-weight:600}
+  .card[data-learned="true"]{opacity:.62;background:var(--paper)}
+  .card[data-learned="true"] .stamp{opacity:1;transform:rotate(-12deg) scale(1)}
+  .stamp{position:absolute;top:42%;left:50%;transform:translate(-50%,-50%) rotate(-12deg) scale(.6);border:3px solid var(--dad);color:var(--dad);border-radius:8px;padding:4px 14px;font-family:"Bricolage Grotesque";font-weight:800;font-size:24px;letter-spacing:.05em;text-transform:uppercase;opacity:0;transition:opacity .25s,transform .25s;pointer-events:none;background:rgba(243,234,214,.6)}
+  .tick{position:absolute;bottom:14px;right:16px;font-size:11px;color:var(--ink-soft);font-weight:500}
+  .empty{text-align:center;padding:60px 0;color:var(--ink-soft);font-family:"Fraunces";font-style:italic;font-size:18px}
+  footer{text-align:center;margin-top:48px;font-size:12.5px;color:var(--ink-soft)}
+  .hint{text-align:center;margin-top:6px;font-size:12.5px;color:var(--ink-soft)}
+
+  /* ===== Reveal page ===== */
+  #view-reveal{display:none}
+  .reveal-wrap{max-width:760px;margin:0 auto;padding:24px 20px 60px;position:relative;z-index:2;text-align:center}
+  .round-banner{margin:6px auto 4px}
+  .round-no{font-family:"Spline Sans";text-transform:uppercase;letter-spacing:.3em;font-size:12px;font-weight:600;color:var(--gold)}
+  .round-label{font-family:"Bricolage Grotesque";font-weight:800;font-size:clamp(28px,6vw,46px);line-height:1;letter-spacing:-.02em;margin-top:4px}
+  .round-banner.pop{animation:pop .5s cubic-bezier(.2,.9,.3,1.3)}
+  @keyframes pop{0%{opacity:0;transform:scale(.9) translateY(8px)}100%{opacity:1;transform:none}}
+  .counter{margin-top:8px;font-size:13px;color:var(--ink-soft);font-weight:500;font-variant-numeric:tabular-nums}
+
+  .flip-stage{perspective:1800px;display:flex;justify-content:center;margin:22px auto 8px}
+  .flip{width:min(86vw,420px);height:min(118vw,560px);position:relative;transform-style:preserve-3d;
+    transition:transform .75s cubic-bezier(.2,.85,.25,1);cursor:pointer}
+  .flip.flipped{transform:rotateY(180deg)}
+  .face{position:absolute;inset:0;backface-visibility:hidden;-webkit-backface-visibility:hidden;border-radius:24px;
+    border:1.5px solid var(--line);box-shadow:0 26px 60px -30px var(--shadow);overflow:hidden;
+    display:flex;flex-direction:column;align-items:center;justify-content:center;padding:26px}
+  .face.front{background:var(--paper-2);
+    background-image:radial-gradient(circle at 50% 38%,rgba(255,255,255,.5),transparent 60%)}
+  .face.front .bigflag{font-size:clamp(120px,32vw,210px);line-height:1;filter:drop-shadow(0 8px 14px rgba(0,0,0,.22));animation:rise .5s both}
+  .face.front .guess{margin-top:22px;font-family:"Fraunces";font-style:italic;font-size:19px;color:var(--ink)}
+  .face.front .taptip{margin-top:6px;font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-soft)}
+  .corner{position:absolute;top:18px;font-family:"Bricolage Grotesque";font-weight:800;font-size:15px;color:var(--ink-soft);opacity:.5}
+  .corner.l{left:20px}.corner.r{right:20px}
+
+  .face.back{transform:rotateY(180deg);background:var(--paper-2);text-align:left;justify-content:flex-start;color:var(--ink)}
+  .face.back::after{content:"";position:absolute;left:0;top:0;bottom:0;width:8px;background:var(--accent)}
+  .back .b-owner{align-self:flex-end;font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.1em;color:#fff;background:var(--accent);padding:4px 12px;border-radius:99px}
+  .back .b-flag{font-size:60px;line-height:1;margin:6px 0 2px}
+  .back .b-name{font-family:"Bricolage Grotesque";font-weight:800;font-size:clamp(28px,7vw,40px);line-height:1;letter-spacing:-.02em;margin-bottom:18px}
+  .back .row{font-size:14px}
+  .back .row .txt{font-size:15px}
+
+  .rev-controls{display:flex;gap:10px;justify-content:center;align-items:center;margin-top:18px;flex-wrap:wrap}
+  .btn{font-family:"Spline Sans";font-weight:600;font-size:15px;cursor:pointer;border-radius:99px;padding:13px 26px;border:1.5px solid var(--line);background:var(--paper-2);color:var(--ink);transition:transform .15s,background .2s,opacity .2s;display:inline-flex;align-items:center;gap:8px}
+  .btn:hover{transform:translateY(-2px)}
+  .btn:disabled{opacity:.4;cursor:default;transform:none}
+  .btn.primary{background:var(--ink);color:#fff;border-color:transparent}
+  .btn.flip-btn{background:var(--gold);color:#fff;border-color:transparent}
+  .rev-hint{margin-top:18px;font-size:13px;color:var(--ink-soft);font-family:"Fraunces";font-style:italic}
+
+  .finale{display:none;text-align:center;padding:30px 10px;animation:pop .6s both}
+  .finale .trophy{font-size:90px;animation:spin 9s linear infinite;display:inline-block}
+  .finale h2{font-family:"Bricolage Grotesque";font-weight:800;font-size:clamp(30px,7vw,52px);margin:10px 0 8px;letter-spacing:-.02em}
+  .finale p{font-family:"Fraunces";font-style:italic;font-size:18px;color:var(--ink-soft);max-width:440px;margin:0 auto 22px}
+
+  @media(max-width:520px){
+    .grid{grid-template-columns:1fr 1fr;gap:12px}.card{padding:15px 14px}.name{font-size:18px;padding-right:40px}.flag{font-size:32px}.row{font-size:12.5px}
+  }
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <button id="tab-wall" aria-selected="true" onclick="showView('wall')">📋 Wallchart</button>
+  <button id="tab-reveal" aria-selected="false" onclick="showView('reveal')">🎉 The Reveal</button>
+</nav>
+
+<!-- ========== WALLCHART ========== -->
+<main id="view-wall">
+<div class="wrap">
+  <header>
+    <div class="kicker">USA · Canada · Mexico — 11 June to 19 July</div>
+    <h1>World Cup <span class="ball">⚽</span> Sweepstake</h1>
+    <p class="sub">Forty-eight teams, four players, one family. Tap a card when you've learned it.</p>
+    <div class="progress-card">
+      <div class="progress-top"><strong id="pcount">0 / 48</strong><span id="plabel">teams learned</span></div>
+      <div class="bar"><i id="pbar"></i></div>
+    </div>
+  </header>
+
+  <div class="controls">
+    <label class="search">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg>
+      <input id="search" type="text" placeholder="Search a team, player or dish…" autocomplete="off">
+    </label>
+    <div class="pills" id="pills"></div>
+  </div>
+
+  <div class="grid" id="grid"></div>
+  <div class="empty" id="empty" style="display:none">No teams match that search.</div>
+
+  <footer>Pick one team each per matchday and read it aloud before kickoff. By the knockouts you'll know all 48. 🏆<div class="hint" id="savehint">Your progress saves automatically on this device.</div></footer>
+</div>
+</main>
+
+<!-- ========== REVEAL ========== -->
+<main id="view-reveal">
+<div class="reveal-wrap">
+  <div id="stageArea">
+    <div class="round-banner" id="banner">
+      <div class="round-no" id="roundNo">Round 1 of 12</div>
+      <div class="round-label" id="roundLabel">The Longshots</div>
+    </div>
+    <div class="counter" id="counter">Team 1 of 48</div>
+
+    <div class="flip-stage">
+      <div class="flip" id="flip" onclick="toggleFlip()">
+        <div class="face front">
+          <span class="corner l" id="cornNo">1</span>
+          <span class="bigflag" id="bigflag">🏳️</span>
+          <div class="guess">Whose flag is this?</div>
+          <div class="taptip">tap to reveal</div>
+        </div>
+        <div class="face back" id="back">
+          <span class="b-owner" id="bOwner">—</span>
+          <span class="b-flag" id="bFlag">🏳️</span>
+          <span class="b-name" id="bName">—</span>
+          <div class="row"><span class="ic" id="icP"></span><div><span class="lbl">Key player</span><span class="player-name" id="bPlayer"></span></div></div>
+          <div class="row fact"><span class="ic" id="icF"></span><div><span class="lbl">Did you know</span><span class="txt" id="bFact"></span></div></div>
+          <div class="row"><span class="ic" id="icD"></span><div><span class="lbl">Famous dish</span><span id="bFood"></span></div></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="rev-controls">
+      <button class="btn" id="prevBtn" onclick="prev()">← Back</button>
+      <button class="btn flip-btn" onclick="toggleFlip()">Flip</button>
+      <button class="btn primary" id="nextBtn" onclick="next()">Reveal next →</button>
+    </div>
+    <p class="rev-hint">Show everyone the flag, take your guesses, then flip. Teams climb from longshots to favourites.</p>
+  </div>
+
+  <div class="finale" id="finale">
+    <span class="trophy">🏆</span>
+    <h2>That's your sweepstake!</h2>
+    <p>All 48 teams are out, smallest hopefuls to heavyweight favourites. Let the games begin on 11 June.</p>
+    <button class="btn primary" onclick="restart()">↺ Run it again</button>
+  </div>
+</div>
+</main>
+
+<script>
+const OWNERS={Mum:{color:"var(--mum)"},Dad:{color:"var(--dad)"},Eli:{color:"var(--eli)"},Isaac:{color:"var(--isaac)"}};
+
+const TEAMS=[
+  {o:"Mum",f:"🇵🇹",n:"Portugal",p:"Cristiano Ronaldo",fact:"Ronaldo is the all-time leading goalscorer in men's international football.",food:"Pastéis de nata (custard tarts)"},
+  {o:"Mum",f:"🇲🇽",n:"Mexico",p:"Santiago Giménez",fact:"First nation ever to host the World Cup three times — 1970, 1986 and now 2026.",food:"Tacos al pastor"},
+  {o:"Mum",f:"🇦🇷",n:"Argentina",p:"Lionel Messi",fact:"The reigning world champions, having lifted the trophy in 2022.",food:"Asado (barbecue)"},
+  {o:"Mum",f:"🇸🇳",n:"Senegal",p:"Sadio Mané",fact:"Crowned African champions at the 2022 Cup of Nations.",food:"Thiéboudienne (national dish)"},
+  {o:"Mum",f:"🇨🇭",n:"Switzerland",p:"Granit Xhaka",fact:"Home of FIFA itself, headquartered in Zurich.",food:"Fondue"},
+  {o:"Mum",f:"🇦🇹",n:"Austria",p:"David Alaba",fact:"Finished a remarkable third at the 1954 World Cup.",food:"Wiener schnitzel"},
+  {o:"Mum",f:"🇪🇬",n:"Egypt",p:"Mohamed Salah",fact:"Record seven-time African Cup of Nations winners.",food:"Koshari (national dish)"},
+  {o:"Mum",f:"🇺🇿",n:"Uzbekistan",p:"Eldor Shomurodov",fact:"Qualifying for their very first World Cup.",food:"Plov (rice pilaf, national dish)"},
+  {o:"Mum",f:"🇸🇦",n:"Saudi Arabia",p:"Salem Al-Dawsari",fact:"Famously beat eventual champions Argentina in 2022.",food:"Kabsa"},
+  {o:"Mum",f:"🇨🇩",n:"DR Congo",p:"Yoane Wissa",fact:"First World Cup since 1974, when they played as Zaire.",food:"Moambe chicken (national dish)"},
+  {o:"Mum",f:"🇨🇻",n:"Cape Verde",p:"Ryan Mendes",fact:"An island nation of ~500,000 reaching its first-ever World Cup.",food:"Cachupa (national dish)"},
+  {o:"Mum",f:"🇨🇿",n:"Czechia",p:"Patrik Schick",fact:"Twice World Cup runners-up as Czechoslovakia (1934 & 1962).",food:"Svíčková (beef in cream sauce)"},
+  {o:"Dad",f:"🇩🇪",n:"Germany",p:"Jamal Musiala",fact:"Four-time world champions.",food:"Bratwurst"},
+  {o:"Dad",f:"🇧🇷",n:"Brazil",p:"Vinícius Júnior",fact:"Hold the record with five World Cup titles.",food:"Feijoada (black bean stew)"},
+  {o:"Dad",f:"🇧🇪",n:"Belgium",p:"Kevin De Bruyne",fact:"Their golden generation peaked at third place in 2018.",food:"Frites (fries were invented here, not France)"},
+  {o:"Dad",f:"🇦🇺",n:"Australia",p:"Mat Ryan",fact:"Known the world over as the Socceroos.",food:"Meat pie"},
+  {o:"Dad",f:"🇮🇷",n:"Iran",p:"Mehdi Taremi",fact:"Among the most experienced sides in Asian World Cup history.",food:"Chelo kabab (national dish)"},
+  {o:"Dad",f:"🇨🇴",n:"Colombia",p:"Luis Díaz",fact:"Reached the World Cup quarter-finals in 2014, their best run.",food:"Bandeja paisa"},
+  {o:"Dad",f:"🏴󠁧󠁢󠁳󠁣󠁴󠁿",n:"Scotland",p:"Andrew Robertson",fact:"Played in the world's first-ever international match (1872 vs England).",food:"Haggis"},
+  {o:"Dad",f:"🇹🇳",n:"Tunisia",p:"Hannibal Mejbri",fact:"Beat reigning champions France in the 2022 group stage.",food:"Brik (crispy egg pastry)"},
+  {o:"Dad",f:"🇿🇦",n:"South Africa",p:"Percy Tau",fact:"Hosted the first-ever African World Cup in 2010.",food:"Bobotie"},
+  {o:"Dad",f:"🇮🇶",n:"Iraq",p:"Aymen Hussein",fact:"Won the 2007 Asian Cup against extraordinary odds.",food:"Masgouf (grilled fish, national dish)"},
+  {o:"Dad",f:"🇳🇿",n:"New Zealand",p:"Chris Wood",fact:"The only team unbeaten at the 2010 World Cup — yet still went out.",food:"Hāngī (Māori earth-oven feast)"},
+  {o:"Dad",f:"🇧🇦",n:"Bosnia & Herzegovina",p:"Edin Džeko",fact:"Reached the World Cup for the first time in 2014.",food:"Ćevapi (grilled minced meat)"},
+  {o:"Eli",f:"🇨🇦",n:"Canada",p:"Alphonso Davies",fact:"Only their third men's World Cup ever — and first as hosts.",food:"Poutine"},
+  {o:"Eli",f:"🏴󠁧󠁢󠁥󠁮󠁧󠁿",n:"England",p:"Jude Bellingham",fact:"Codified modern football; last won the trophy in 1966.",food:"Fish and chips"},
+  {o:"Eli",f:"🇫🇷",n:"France",p:"Kylian Mbappé",fact:"Champions in 2018, runners-up in 2022.",food:"Coq au vin"},
+  {o:"Eli",f:"🇲🇦",n:"Morocco",p:"Achraf Hakimi",fact:"First African and Arab nation to reach a World Cup semi-final (2022).",food:"Tagine"},
+  {o:"Eli",f:"🇯🇵",n:"Japan",p:"Kaoru Mitoma",fact:"Their fans famously stay to clean the stadium after matches.",food:"Sushi"},
+  {o:"Eli",f:"🇪🇨",n:"Ecuador",p:"Moisés Caicedo",fact:"Play home qualifiers way up at altitude in Quito (2,800m).",food:"Encebollado (national dish)"},
+  {o:"Eli",f:"🇳🇴",n:"Norway",p:"Erling Haaland",fact:"Back at the World Cup for the first time since 1998.",food:"Brunost (brown cheese)"},
+  {o:"Eli",f:"🇨🇮",n:"Ivory Coast",p:"Sébastien Haller",fact:"Reigning African champions, winning the 2023 Cup of Nations.",food:"Attiéké (cassava couscous)"},
+  {o:"Eli",f:"🇩🇿",n:"Algeria",p:"Riyad Mahrez",fact:"Their 1982 side stunned West Germany in a famous upset.",food:"Couscous"},
+  {o:"Eli",f:"🇯🇴",n:"Jordan",p:"Mousa Al-Tamari",fact:"First-ever World Cup; were runners-up at the 2023 Asian Cup.",food:"Mansaf (national dish)"},
+  {o:"Eli",f:"🇨🇼",n:"Curaçao",p:"Leandro Bacuna",fact:"The smallest nation by population ever to qualify for a World Cup.",food:"Keshi yena (stuffed cheese)"},
+  {o:"Eli",f:"🇬🇭",n:"Ghana",p:"Mohammed Kudus",fact:"Came within a missed penalty of the 2010 semi-finals.",food:"Jollof rice"},
+  {o:"Isaac",f:"🇪🇸",n:"Spain",p:"Lamine Yamal",fact:"Reigning European champions (Euro 2024).",food:"Paella"},
+  {o:"Isaac",f:"🇺🇸",n:"USA",p:"Christian Pulisic",fact:"Co-hosting their first men's World Cup since 1994.",food:"Cheeseburger"},
+  {o:"Isaac",f:"🇳🇱",n:"Netherlands",p:"Virgil van Dijk",fact:"Three-time runners-up who have never won the trophy.",food:"Stroopwafel"},
+  {o:"Isaac",f:"🇺🇾",n:"Uruguay",p:"Federico Valverde",fact:"Won the very first World Cup, in 1930.",food:"Chivito (steak sandwich)"},
+  {o:"Isaac",f:"🇭🇷",n:"Croatia",p:"Luka Modrić",fact:"A nation under 4 million reached the 2018 final and 2022 semis.",food:"Peka (slow-roasted meat & veg)"},
+  {o:"Isaac",f:"🇰🇷",n:"South Korea",p:"Son Heung-min",fact:"Reached the semi-finals as co-hosts in 2002.",food:"Bibimbap"},
+  {o:"Isaac",f:"🇵🇦",n:"Panama",p:"Adalberto Carrasquilla",fact:"Only their second-ever World Cup appearance.",food:"Sancocho (chicken stew)"},
+  {o:"Isaac",f:"🇵🇾",n:"Paraguay",p:"Miguel Almirón",fact:"Their dish 'sopa paraguaya' is actually a cornbread, not a soup.",food:"Chipá (cheese bread)"},
+  {o:"Isaac",f:"🇶🇦",n:"Qatar",p:"Akram Afif",fact:"Hosted the previous World Cup back in 2022.",food:"Machboos (spiced rice)"},
+  {o:"Isaac",f:"🇭🇹",n:"Haiti",p:"Frantzdy Pierrot",fact:"Back at the World Cup for the first time since 1974.",food:"Griot (fried pork)"},
+  {o:"Isaac",f:"🇸🇪",n:"Sweden",p:"Alexander Isak",fact:"Finished third at both the 1950 and 1994 World Cups.",food:"Köttbullar (meatballs)"},
+  {o:"Isaac",f:"🇹🇷",n:"Türkiye",p:"Arda Güler",fact:"Finished a surprise third at the 2002 World Cup.",food:"Kebab & baklava"}
+];
+const byName={}; TEAMS.forEach(t=>byName[t.n]=t);
+
+// Round-robin reveal order: weakest round -> strongest, each round escalates internally
+const ROUNDS=[
+ {label:"The Longshots",       teams:["Curaçao","Haiti","Cape Verde","New Zealand"]},
+ {label:"Rank Outsiders",      teams:["Jordan","Iraq","DR Congo","Panama"]},
+ {label:"The Underdogs",       teams:["Ghana","Uzbekistan","South Africa","Qatar"]},
+ {label:"Plucky Hopefuls",     teams:["Czechia","Bosnia & Herzegovina","Paraguay","Algeria"]},
+ {label:"Punching Above",      teams:["Saudi Arabia","Tunisia","Canada","Türkiye"]},
+ {label:"Dark Horses",         teams:["Scotland","Ivory Coast","Egypt","Sweden"]},
+ {label:"Outside Bets",        teams:["Australia","Austria","Ecuador","USA"]},
+ {label:"Gathering Steam",     teams:["Iran","Mexico","Norway","South Korea"]},
+ {label:"Serious Contenders",  teams:["Senegal","Japan","Colombia","Uruguay"]},
+ {label:"The Heavyweights",    teams:["Switzerland","Morocco","Croatia","Belgium"]},
+ {label:"The Big Guns",        teams:["Netherlands","Portugal","Germany","England"]},
+ {label:"The Favourites 🏆",    teams:["Argentina","Brazil","France","Spain"]}
+];
+const SEQ=[]; ROUNDS.forEach((r,ri)=>r.teams.forEach(n=>SEQ.push({name:n,round:ri})));
+
+const icPlayer='<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="7" r="3.2"/><path d="M5.5 21a6.5 6.5 0 0 1 13 0"/></svg>';
+const icFact='<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9"/><path d="M12 16v-5M12 8h.01"/></svg>';
+const icFood='<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M5 3v8M8 3v8M5 11h3v10M16 3c-1.5 0-3 2-3 5s1.5 4 3 4v9"/></svg>';
+
+/* ---------------- Wallchart ---------------- */
+let learned=new Set(),filter="all",q="",storageOK=true;
+const grid=document.getElementById("grid"),pills=document.getElementById("pills"),empty=document.getElementById("empty");
+
+function buildPills(){
+  const defs=[["all","All",null],...Object.keys(OWNERS).map(o=>[o,o,OWNERS[o].color])];
+  pills.innerHTML=defs.map(([key,label,color])=>{
+    const dot=color?`<span class="dot" style="background:${color}"></span>`:"";
+    return `<button class="pill ${key}" data-key="${key}" data-on="${filter===key}">${dot}${label}<span class="cnt" id="cnt-${key}"></span></button>`;
+  }).join("");
+  pills.querySelectorAll(".pill").forEach(b=>b.onclick=()=>{filter=b.dataset.key;renderWall();});
+}
+function counts(){
+  document.getElementById("cnt-all").textContent=`${learned.size}/48`;
+  Object.keys(OWNERS).forEach(o=>{
+    const t=TEAMS.filter(x=>x.o===o),d=t.filter(x=>learned.has(x.n)).length;
+    document.getElementById("cnt-"+o).textContent=`${d}/${t.length}`;
+  });
+}
+function renderWall(){
+  pills.querySelectorAll(".pill").forEach(b=>b.dataset.on=(filter===b.dataset.key));
+  const ql=q.trim().toLowerCase();
+  const list=TEAMS.filter(t=>(filter==="all"||t.o===filter)&&(!ql||(t.n+t.p+t.food+t.fact+t.o).toLowerCase().includes(ql)));
+  empty.style.display=list.length?"none":"block";
+  grid.innerHTML=list.map((t,i)=>`
+    <article class="card" data-name="${t.n}" data-learned="${learned.has(t.n)}" style="--accent:${OWNERS[t.o].color};animation-delay:${Math.min(i*28,420)}ms">
+      <span class="owner">${t.o}</span><div class="stamp">Learned</div>
+      <span class="flag">${t.f}</span><h3 class="name">${t.n}</h3>
+      <div class="row">${icPlayer}<div><span class="lbl">Key player</span><span class="player-name">${t.p}</span></div></div>
+      <div class="row fact">${icFact}<div><span class="lbl">Did you know</span><span class="txt">${t.fact}</span></div></div>
+      <div class="row">${icFood}<div><span class="lbl">Famous dish</span>${t.food}</div></div>
+      <span class="tick">${learned.has(t.n)?"✓ tap to reset":"tap when learned"}</span>
+    </article>`).join("");
+  grid.querySelectorAll(".card").forEach(c=>c.onclick=()=>{const n=c.dataset.name;learned.has(n)?learned.delete(n):learned.add(n);save();renderWall();});
+  counts(); updateProgress();
+}
+function updateProgress(){
+  const n=learned.size;
+  document.getElementById("pcount").textContent=`${n} / 48`;
+  document.getElementById("pbar").style.width=(n/48*100)+"%";
+  const l=document.getElementById("plabel");
+  l.textContent=n===48?"🏆 you know them all!":n>=24?"halfway there — keep going":"teams learned";
+}
+async function load(){try{const r=await window.storage.get("wc26-learned");if(r&&r.value)learned=new Set(JSON.parse(r.value));}catch(e){}}
+async function save(){if(!storageOK)return;try{await window.storage.set("wc26-learned",JSON.stringify([...learned]));}catch(e){storageOK=false;document.getElementById("savehint").textContent="Progress is kept for this session only.";}}
+document.getElementById("search").addEventListener("input",e=>{q=e.target.value;renderWall();});
+
+/* ---------------- Reveal ---------------- */
+let idx=0, lastRound=-1;
+const flip=document.getElementById("flip");
+function renderReveal(){
+  document.getElementById("finale").style.display="none";
+  document.getElementById("stageArea").style.display="block";
+  const item=SEQ[idx], t=byName[item.name], col=OWNERS[t.o].color;
+  // round banner
+  document.getElementById("roundNo").textContent=`Round ${item.round+1} of 12`;
+  document.getElementById("roundLabel").textContent=ROUNDS[item.round].label;
+  if(item.round!==lastRound){const b=document.getElementById("banner");b.classList.remove("pop");void b.offsetWidth;b.classList.add("pop");lastRound=item.round;}
+  document.getElementById("counter").textContent=`Team ${idx+1} of 48`;
+  document.getElementById("cornNo").textContent=idx+1;
+  // front
+  flip.classList.remove("flipped");
+  document.getElementById("bigflag").textContent=t.f;
+  // back
+  const back=document.getElementById("back"); back.style.setProperty("--accent",col);
+  document.getElementById("bOwner").textContent=t.o;
+  document.getElementById("bFlag").textContent=t.f;
+  document.getElementById("bName").textContent=t.n;
+  document.getElementById("bPlayer").textContent=t.p;
+  document.getElementById("bFact").textContent=t.fact;
+  document.getElementById("bFood").textContent=t.food;
+  document.getElementById("icP").innerHTML=icPlayer;
+  document.getElementById("icF").innerHTML=icFact;
+  document.getElementById("icD").innerHTML=icFood;
+  document.getElementById("prevBtn").disabled=(idx===0);
+  document.getElementById("nextBtn").textContent=(idx===SEQ.length-1)?"Finish 🏆":"Reveal next →";
+}
+function toggleFlip(){flip.classList.toggle("flipped");}
+function next(){ if(idx<SEQ.length-1){idx++;renderReveal();} else {showFinale();} }
+function prev(){ if(idx>0){idx--;renderReveal();} }
+function showFinale(){document.getElementById("stageArea").style.display="none";document.getElementById("finale").style.display="block";}
+function restart(){idx=0;lastRound=-1;renderReveal();}
+
+/* ---------------- View switching ---------------- */
+function showView(v){
+  const wall=v==="wall";
+  document.getElementById("view-wall").style.display=wall?"block":"none";
+  document.getElementById("view-reveal").style.display=wall?"none":"block";
+  document.getElementById("tab-wall").setAttribute("aria-selected",wall);
+  document.getElementById("tab-reveal").setAttribute("aria-selected",!wall);
+  window.scrollTo({top:0,behavior:"instant"});
+  if(!wall){lastRound=-1;renderReveal();}
+}
+// keyboard on reveal
+document.addEventListener("keydown",e=>{
+  if(document.getElementById("view-reveal").style.display==="none")return;
+  if(e.key==="ArrowRight"){next();}
+  else if(e.key==="ArrowLeft"){prev();}
+  else if(e.key===" "||e.key==="Enter"){e.preventDefault();toggleFlip();}
+});
+
+/* ---------------- Init ---------------- */
+(async function init(){
+  buildPills();
+  try{ if(typeof window.storage!=="undefined") await load(); else storageOK=false; }catch(e){storageOK=false;}
+  if(!storageOK) document.getElementById("savehint").textContent="Progress is kept for this session only.";
+  renderWall();
+  renderReveal();
+})();
+</script>
+</body>
+</html>

@@ -4,6 +4,16 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>World Cup 2026 — Family Sweepstake</title>
+<meta name="description" content="Our family World Cup 2026 sweepstake — 48 teams shared between Mum, Dad, Eli & Reachy and Isaac. A wallchart to learn every team and a flip-card reveal from longshots to favourites.">
+<meta name="theme-color" content="#1b2236">
+<link rel="icon" href="icon.svg">
+<link rel="manifest" href="manifest.webmanifest">
+<!-- Open Graph / link sharing -->
+<meta property="og:type" content="website">
+<meta property="og:title" content="World Cup 2026 — Family Sweepstake">
+<meta property="og:description" content="48 teams, four players, one family. A wallchart to learn every team and a flip-card reveal from longshots to favourites.">
+<meta property="og:image" content="icon.svg">
+<meta name="twitter:card" content="summary">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,700;12..96,800&family=Fraunces:ital,opsz,wght@1,9..144,400;1,9..144,500&family=Spline+Sans:wght@400;500;600&display=swap" rel="stylesheet">
@@ -23,7 +33,7 @@
   .wrap{max-width:1180px;margin:0 auto;padding:0 20px 80px;position:relative;z-index:2}
 
   /* ---- Nav ---- */
-  .nav{position:sticky;top:0;z-index:60;display:flex;gap:6px;justify-content:center;align-items:center;
+  .nav{position:sticky;top:0;z-index:60;display:flex;flex-wrap:wrap;gap:6px;justify-content:center;align-items:center;
     padding:10px;background:rgba(243,234,214,.92);backdrop-filter:blur(8px);border-bottom:1.5px solid var(--line)}
   .nav button{font-family:"Spline Sans";font-weight:600;font-size:14px;color:var(--ink);cursor:pointer;
     border:1.5px solid var(--line);background:var(--paper-2);padding:8px 18px;border-radius:99px;display:flex;align-items:center;gap:8px;
@@ -137,16 +147,88 @@
   .finale h2{font-family:"Bricolage Grotesque";font-weight:800;font-size:clamp(30px,7vw,52px);margin:10px 0 8px;letter-spacing:-.02em}
   .finale p{font-family:"Fraunces";font-style:italic;font-size:18px;color:var(--ink-soft);max-width:440px;margin:0 auto 22px}
 
+  /* ---- Next-game banner ---- */
+  .nextgame{margin:22px auto 0;max-width:600px;width:100%;background:var(--ink);color:#fff;border:none;cursor:pointer;
+    border-radius:16px;padding:14px 18px;display:flex;align-items:center;gap:14px;text-align:left;box-shadow:0 14px 30px -18px var(--shadow);transition:transform .15s}
+  .nextgame:hover{transform:translateY(-2px)}
+  .nextgame .ng-when{font-size:11px;text-transform:uppercase;letter-spacing:.16em;color:var(--gold);font-weight:700}
+  .nextgame .ng-match{font-family:"Bricolage Grotesque";font-weight:800;font-size:19px;line-height:1.1;margin-top:3px;display:flex;align-items:center;gap:7px;flex-wrap:wrap}
+  .nextgame .ng-match img.flag{height:22px;margin:0}
+  .nextgame .ng-vs{opacity:.55;font-size:14px;font-weight:600}
+  .nextgame .ng-meal{margin-top:7px;font-family:"Fraunces";font-style:italic;font-size:13.5px;color:rgba(255,255,255,.92)}
+  .nextgame .ng-kind{font-family:"Spline Sans";font-style:normal;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;background:var(--gold);color:#1b2236;border-radius:99px;padding:2px 8px;margin-right:7px}
+  .nextgame .ng-arrow{margin-left:auto;font-size:24px;opacity:.6;flex:none}
+
+  /* ---- Sort / hide toolbar ---- */
+  .toolbar2{display:flex;gap:16px;justify-content:center;align-items:center;flex-wrap:wrap;margin-top:14px;font-size:13px;color:var(--ink-soft)}
+  .toolbar2 label{display:inline-flex;align-items:center;gap:7px;cursor:pointer}
+  .toolbar2 select{font-family:"Spline Sans";font-size:13px;border:1.5px solid var(--line);background:var(--paper-2);border-radius:10px;padding:7px 10px;color:var(--ink);cursor:pointer}
+  .toolbar2 input{width:16px;height:16px;accent-color:var(--gold)}
+
+  /* ---- Card extras: rank / next / out ---- */
+  .name .rank{display:inline-flex;align-items:center;justify-content:center;font-size:12px;color:var(--ink-soft);background:var(--paper);border:1.5px solid var(--line);border-radius:99px;min-width:22px;height:22px;padding:0 5px;margin-right:5px;vertical-align:2px;font-variant-numeric:tabular-nums}
+  .nextbadge,.outbadge{position:absolute;top:14px;left:14px;z-index:3;font-size:10px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;padding:3px 9px;border-radius:99px}
+  .nextbadge{color:#1b2236;background:var(--gold);box-shadow:0 2px 8px rgba(0,0,0,.18)}
+  .outbadge{color:#fff;background:#7a2622}
+  .card.is-next{box-shadow:0 0 0 2px var(--gold),0 18px 36px -22px var(--shadow)}
+  .card.is-out{filter:grayscale(.85);opacity:.5}
+
+  /* ---- Fixtures & menu ---- */
+  #view-fixtures{display:none}
+  .fix-wrap{padding-bottom:70px}
+  .mgr{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;
+    background:var(--paper-2);border:1.5px solid var(--line);border-radius:14px;padding:12px 16px;margin:6px 0 0;font-size:13px;color:var(--ink-soft)}
+  .mini{font-family:"Spline Sans";font-weight:600;font-size:13px;border:1.5px solid var(--line);background:var(--paper);color:var(--ink);border-radius:99px;padding:8px 14px;cursor:pointer;transition:transform .12s}
+  .mini:hover{transform:translateY(-1px)}
+  .mini[aria-pressed="true"]{background:var(--ink);color:#fff;border-color:transparent}
+  .elim-panel{display:none;margin-top:12px;background:var(--paper-2);border:1.5px solid var(--line);border-radius:14px;padding:14px 16px}
+  body.managing .elim-panel{display:block}
+  .elim-grid{display:flex;flex-wrap:wrap;gap:7px;margin-top:10px}
+  .elim-chip{font-size:12px;font-weight:600;border:1.5px solid var(--line);background:var(--paper);color:var(--ink);border-radius:99px;padding:7px 12px;cursor:pointer}
+  .elim-chip[aria-pressed="true"]{background:#7a2622;color:#fff;border-color:transparent;text-decoration:line-through}
+  .fix-day{font-family:"Bricolage Grotesque";font-weight:800;font-size:15px;margin:24px 0 10px;color:var(--ink)}
+  .fixture{background:var(--paper-2);border:1.5px solid var(--line);border-radius:14px;padding:13px 16px;margin-bottom:11px}
+  .fixture.done{opacity:.5}
+  .fix-top{display:flex;align-items:center;gap:9px;flex-wrap:wrap}
+  .fix-time{font-variant-numeric:tabular-nums;font-size:12px;color:var(--ink-soft);font-weight:700;min-width:40px}
+  .fix-team{display:inline-flex;align-items:center;gap:7px;font-weight:700;font-size:15px}
+  .fix-team img.flag{height:20px;margin:0}
+  .fix-team .o{font-size:9.5px;color:#fff;border-radius:99px;padding:2px 7px;text-transform:uppercase;letter-spacing:.04em;font-weight:700}
+  .fix-vs{opacity:.5;font-size:13px;font-weight:600}
+  .fix-stage{margin-left:auto;font-size:9.5px;text-transform:uppercase;letter-spacing:.07em;color:var(--ink-soft);font-weight:700;border:1.5px solid var(--line);border-radius:6px;padding:3px 7px;white-space:nowrap}
+  .fix-meal{margin-top:10px;font-family:"Fraunces";font-style:italic;font-size:14px;color:var(--ink);display:flex;gap:9px;align-items:flex-start}
+  .meal-kind{flex:none;font-family:"Spline Sans";font-style:normal;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;background:var(--gold);color:#1b2236;border-radius:99px;padding:3px 9px;margin-top:1px}
+  .fix-actions{margin-top:11px;display:none;gap:8px;flex-wrap:wrap}
+  body.managing .fix-actions{display:flex}
+  .fix-team.win{position:relative}
+  .fix-team.win::after{content:"✓";margin-left:3px;color:var(--dad);font-weight:800}
+  .fixture.tbd{opacity:.6}.fix-team.muted{color:var(--ink-soft);font-weight:600}
+  .fix-vs{font-variant-numeric:tabular-nums}
+  /* live status bar */
+  .livebar{display:flex;align-items:center;gap:9px;flex-wrap:wrap;margin:14px 0 4px;font-size:12.5px;color:var(--ink-soft)}
+  .livebar .mini{padding:5px 11px;font-size:12px}
+  .dot-live,.dot-wait,.dot-off{width:9px;height:9px;border-radius:50%;display:inline-block;flex:none}
+  .dot-live{background:#1f9d55;box-shadow:0 0 0 0 rgba(31,157,85,.5);animation:pulse 2s infinite}
+  .dot-wait{background:var(--gold)}.dot-off{background:#b08968}
+  @keyframes pulse{0%{box-shadow:0 0 0 0 rgba(31,157,85,.5)}70%{box-shadow:0 0 0 7px rgba(31,157,85,0)}100%{box-shadow:0 0 0 0 rgba(31,157,85,0)}}
+
   @media(max-width:520px){
     .grid{grid-template-columns:1fr 1fr;gap:12px}.card{padding:15px 14px}.name{font-size:18px;padding-right:40px}.flag{font-size:32px}.row{font-size:12.5px}
+    .name .rank{min-width:20px;height:20px;font-size:11px}
+    .controls{position:static}
+    .nextgame{padding:12px 14px;gap:10px}.nextgame .ng-match{font-size:16px}.nextgame .ng-arrow{font-size:20px}
+    .fix-stage{margin-left:0}
   }
 </style>
 </head>
 <body>
 
-<nav class="nav">
-  <button id="tab-wall" aria-selected="true" onclick="showView('wall')">📋 Wallchart</button>
-  <button id="tab-reveal" aria-selected="false" onclick="showView('reveal')">🎉 The Reveal</button>
+<nav class="nav" aria-label="Views">
+  <div role="tablist" aria-label="Sweepstake views" style="display:contents">
+    <button id="tab-wall" role="tab" aria-controls="view-wall" aria-selected="true" onclick="showView('wall')">📋 Wallchart</button>
+    <button id="tab-fixtures" role="tab" aria-controls="view-fixtures" aria-selected="false" onclick="showView('fixtures')">📅 Fixtures &amp; Menu</button>
+    <button id="tab-reveal" role="tab" aria-controls="view-reveal" aria-selected="false" onclick="showView('reveal')">🎉 The Reveal</button>
+  </div>
   <button onclick="window.open('print.html','_blank')">🖨️ Print sheets</button>
 </nav>
 
@@ -161,14 +243,25 @@
       <div class="progress-top"><strong id="pcount">0 / 48</strong><span id="plabel">teams learned</span></div>
       <div class="bar"><i id="pbar"></i></div>
     </div>
+    <button class="nextgame" id="nextgame" style="display:none" aria-label="Next game — open Fixtures &amp; Menu"></button>
   </header>
 
   <div class="controls">
     <label class="search">
       <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg>
-      <input id="search" type="text" placeholder="Search a team, player or dish…" autocomplete="off">
+      <input id="search" type="text" placeholder="Search a team, player or dish…" autocomplete="off" aria-label="Search teams by name, player or dish">
     </label>
     <div class="pills" id="pills"></div>
+    <div class="toolbar2">
+      <label>Sort
+        <select id="sort">
+          <option value="rank">By ranking</option>
+          <option value="group">By group</option>
+          <option value="az">A–Z</option>
+        </select>
+      </label>
+      <label><input type="checkbox" id="hideout"> Hide knocked-out</label>
+    </div>
   </div>
 
   <div class="grid" id="grid"></div>
@@ -224,93 +317,44 @@
 </div>
 </main>
 
-<script>
-const OWNERS={Mum:{color:"var(--mum)"},Dad:{color:"var(--dad)"},Eli:{color:"var(--eli)",label:"Eli & Reachy"},Isaac:{color:"var(--isaac)"}};
-const ownerLabel=o=>(OWNERS[o]&&OWNERS[o].label)||o;
+<!-- ========== FIXTURES & MENU ========== -->
+<main id="view-fixtures">
+<div class="fix-wrap wrap">
+  <header style="padding:24px 0 6px">
+    <div class="kicker">Fixtures &amp; fusion menu</div>
+    <h1 style="font-size:clamp(28px,6vw,46px)">What's on <span class="ball">🍽️</span></h1>
+    <p class="sub">Every game with a loose, family-friendly meal that mashes the two teams together. Tap a meal idea you fancy.</p>
+  </header>
+  <div class="mgr">
+    <span id="mgrHint">Turn on Manager mode to tick games as played and mark teams knocked out.</span>
+    <button class="mini" id="mgrToggle" aria-pressed="false" onclick="toggleManaging()">⚙️ Manager mode</button>
+  </div>
+  <div class="elim-panel" id="elimPanel">
+    <strong style="font-size:13px">Knocked out</strong>
+    <span style="font-size:12px;color:var(--ink-soft)"> — auto-updated from live results. Tap to add your own override; they grey out on the wallchart and drop from upcoming games.</span>
+    <div class="elim-grid" id="elimGrid"></div>
+  </div>
+  <div class="livebar" id="livebar"></div>
+  <div id="fixList"></div>
+</div>
+</main>
 
-const TEAMS=[
-  {o:"Mum",f:"🇵🇹",n:"Portugal",p:"Cristiano Ronaldo",fact:"Ronaldo is the all-time leading goalscorer in men's international football.",food:"Pastéis de nata (custard tarts)"},
-  {o:"Mum",f:"🇲🇽",n:"Mexico",p:"Santiago Giménez",fact:"First nation ever to host the World Cup three times — 1970, 1986 and now 2026.",food:"Tacos al pastor"},
-  {o:"Mum",f:"🇦🇷",n:"Argentina",p:"Lionel Messi",fact:"The reigning world champions, having lifted the trophy in 2022.",food:"Asado (barbecue)"},
-  {o:"Mum",f:"🇸🇳",n:"Senegal",p:"Sadio Mané",fact:"Crowned African champions at the 2022 Cup of Nations.",food:"Thiéboudienne (national dish)"},
-  {o:"Mum",f:"🇨🇭",n:"Switzerland",p:"Granit Xhaka",fact:"Home of FIFA itself, headquartered in Zurich.",food:"Fondue"},
-  {o:"Mum",f:"🇦🇹",n:"Austria",p:"David Alaba",fact:"Finished a remarkable third at the 1954 World Cup.",food:"Wiener schnitzel"},
-  {o:"Mum",f:"🇪🇬",n:"Egypt",p:"Mohamed Salah",fact:"Record seven-time African Cup of Nations winners.",food:"Koshari (national dish)"},
-  {o:"Mum",f:"🇺🇿",n:"Uzbekistan",p:"Eldor Shomurodov",fact:"Qualifying for their very first World Cup.",food:"Plov (rice pilaf, national dish)"},
-  {o:"Mum",f:"🇸🇦",n:"Saudi Arabia",p:"Salem Al-Dawsari",fact:"Famously beat eventual champions Argentina in 2022.",food:"Kabsa"},
-  {o:"Mum",f:"🇨🇩",n:"DR Congo",p:"Yoane Wissa",fact:"First World Cup since 1974, when they played as Zaire.",food:"Moambe chicken (national dish)"},
-  {o:"Mum",f:"🇨🇻",n:"Cape Verde",p:"Ryan Mendes",fact:"An island nation of ~500,000 reaching its first-ever World Cup.",food:"Cachupa (national dish)"},
-  {o:"Mum",f:"🇨🇿",n:"Czechia",p:"Patrik Schick",fact:"Twice World Cup runners-up as Czechoslovakia (1934 & 1962).",food:"Svíčková (beef in cream sauce)"},
-  {o:"Dad",f:"🇩🇪",n:"Germany",p:"Jamal Musiala",fact:"Four-time world champions.",food:"Bratwurst"},
-  {o:"Dad",f:"🇧🇷",n:"Brazil",p:"Vinícius Júnior",fact:"Hold the record with five World Cup titles.",food:"Feijoada (black bean stew)"},
-  {o:"Dad",f:"🇧🇪",n:"Belgium",p:"Kevin De Bruyne",fact:"Their golden generation peaked at third place in 2018.",food:"Frites (fries were invented here, not France)"},
-  {o:"Dad",f:"🇦🇺",n:"Australia",p:"Mat Ryan",fact:"Known the world over as the Socceroos.",food:"Meat pie"},
-  {o:"Dad",f:"🇮🇷",n:"Iran",p:"Mehdi Taremi",fact:"Among the most experienced sides in Asian World Cup history.",food:"Chelo kabab (national dish)"},
-  {o:"Dad",f:"🇨🇴",n:"Colombia",p:"Luis Díaz",fact:"Reached the World Cup quarter-finals in 2014, their best run.",food:"Bandeja paisa"},
-  {o:"Dad",f:"🏴󠁧󠁢󠁳󠁣󠁴󠁿",n:"Scotland",p:"Andrew Robertson",fact:"Played in the world's first-ever international match (1872 vs England).",food:"Haggis"},
-  {o:"Dad",f:"🇹🇳",n:"Tunisia",p:"Hannibal Mejbri",fact:"Beat reigning champions France in the 2022 group stage.",food:"Brik (crispy egg pastry)"},
-  {o:"Dad",f:"🇿🇦",n:"South Africa",p:"Percy Tau",fact:"Hosted the first-ever African World Cup in 2010.",food:"Bobotie"},
-  {o:"Dad",f:"🇮🇶",n:"Iraq",p:"Aymen Hussein",fact:"Won the 2007 Asian Cup against extraordinary odds.",food:"Masgouf (grilled fish, national dish)"},
-  {o:"Dad",f:"🇳🇿",n:"New Zealand",p:"Chris Wood",fact:"The only team unbeaten at the 2010 World Cup — yet still went out.",food:"Hāngī (Māori earth-oven feast)"},
-  {o:"Dad",f:"🇧🇦",n:"Bosnia & Herzegovina",p:"Edin Džeko",fact:"Reached the World Cup for the first time in 2014.",food:"Ćevapi (grilled minced meat)"},
-  {o:"Eli",f:"🇨🇦",n:"Canada",p:"Alphonso Davies",fact:"Only their third men's World Cup ever — and first as hosts.",food:"Poutine"},
-  {o:"Eli",f:"🏴󠁧󠁢󠁥󠁮󠁧󠁿",n:"England",p:"Jude Bellingham",fact:"Codified modern football; last won the trophy in 1966.",food:"Fish and chips"},
-  {o:"Eli",f:"🇫🇷",n:"France",p:"Kylian Mbappé",fact:"Champions in 2018, runners-up in 2022.",food:"Coq au vin"},
-  {o:"Eli",f:"🇲🇦",n:"Morocco",p:"Achraf Hakimi",fact:"First African and Arab nation to reach a World Cup semi-final (2022).",food:"Tagine"},
-  {o:"Eli",f:"🇯🇵",n:"Japan",p:"Kaoru Mitoma",fact:"Their fans famously stay to clean the stadium after matches.",food:"Sushi"},
-  {o:"Eli",f:"🇪🇨",n:"Ecuador",p:"Moisés Caicedo",fact:"Play home qualifiers way up at altitude in Quito (2,800m).",food:"Encebollado (national dish)"},
-  {o:"Eli",f:"🇳🇴",n:"Norway",p:"Erling Haaland",fact:"Back at the World Cup for the first time since 1998.",food:"Brunost (brown cheese)"},
-  {o:"Eli",f:"🇨🇮",n:"Ivory Coast",p:"Sébastien Haller",fact:"Reigning African champions, winning the 2023 Cup of Nations.",food:"Attiéké (cassava couscous)"},
-  {o:"Eli",f:"🇩🇿",n:"Algeria",p:"Riyad Mahrez",fact:"Their 1982 side stunned West Germany in a famous upset.",food:"Couscous"},
-  {o:"Eli",f:"🇯🇴",n:"Jordan",p:"Mousa Al-Tamari",fact:"First-ever World Cup; were runners-up at the 2023 Asian Cup.",food:"Mansaf (national dish)"},
-  {o:"Eli",f:"🇨🇼",n:"Curaçao",p:"Leandro Bacuna",fact:"The smallest nation by population ever to qualify for a World Cup.",food:"Keshi yena (stuffed cheese)"},
-  {o:"Eli",f:"🇬🇭",n:"Ghana",p:"Mohammed Kudus",fact:"Came within a missed penalty of the 2010 semi-finals.",food:"Jollof rice"},
-  {o:"Isaac",f:"🇪🇸",n:"Spain",p:"Lamine Yamal",fact:"Reigning European champions (Euro 2024).",food:"Paella"},
-  {o:"Isaac",f:"🇺🇸",n:"USA",p:"Christian Pulisic",fact:"Co-hosting their first men's World Cup since 1994.",food:"Cheeseburger"},
-  {o:"Isaac",f:"🇳🇱",n:"Netherlands",p:"Virgil van Dijk",fact:"Three-time runners-up who have never won the trophy.",food:"Stroopwafel"},
-  {o:"Isaac",f:"🇺🇾",n:"Uruguay",p:"Federico Valverde",fact:"Won the very first World Cup, in 1930.",food:"Chivito (steak sandwich)"},
-  {o:"Isaac",f:"🇭🇷",n:"Croatia",p:"Luka Modrić",fact:"A nation under 4 million reached the 2018 final and 2022 semis.",food:"Peka (slow-roasted meat & veg)"},
-  {o:"Isaac",f:"🇰🇷",n:"South Korea",p:"Son Heung-min",fact:"Reached the semi-finals as co-hosts in 2002.",food:"Bibimbap"},
-  {o:"Isaac",f:"🇵🇦",n:"Panama",p:"Adalberto Carrasquilla",fact:"Only their second-ever World Cup appearance.",food:"Sancocho (chicken stew)"},
-  {o:"Isaac",f:"🇵🇾",n:"Paraguay",p:"Miguel Almirón",fact:"Their dish 'sopa paraguaya' is actually a cornbread, not a soup.",food:"Chipá (cheese bread)"},
-  {o:"Isaac",f:"🇶🇦",n:"Qatar",p:"Akram Afif",fact:"Hosted the previous World Cup back in 2022.",food:"Machboos (spiced rice)"},
-  {o:"Isaac",f:"🇭🇹",n:"Haiti",p:"Frantzdy Pierrot",fact:"Back at the World Cup for the first time since 1974.",food:"Griot (fried pork)"},
-  {o:"Isaac",f:"🇸🇪",n:"Sweden",p:"Alexander Isak",fact:"Finished third at both the 1950 and 1994 World Cups.",food:"Köttbullar (meatballs)"},
-  {o:"Isaac",f:"🇹🇷",n:"Türkiye",p:"Arda Güler",fact:"Finished a surprise third at the 2002 World Cup.",food:"Kebab & baklava"}
-];
+<script src="teams.js"></script>
+<script src="fixtures.js"></script>
+<script src="live.js"></script>
+<script>
+// All team data lives in teams.js (single source of truth, shared with print.html).
+const OWNERS=WC.OWNERS, TEAMS=WC.TEAMS, ROUNDS=WC.ROUNDS, ownerLabel=WC.ownerLabel;
 const byName={}; TEAMS.forEach(t=>byName[t.n]=t);
 
-// Round-robin reveal order: weakest round -> strongest, each round escalates internally
-const ROUNDS=[
- {label:"The Longshots",       teams:["Curaçao","Haiti","Cape Verde","New Zealand"]},
- {label:"Rank Outsiders",      teams:["Jordan","Iraq","DR Congo","Panama"]},
- {label:"The Underdogs",       teams:["Ghana","Uzbekistan","South Africa","Qatar"]},
- {label:"Plucky Hopefuls",     teams:["Czechia","Bosnia & Herzegovina","Paraguay","Algeria"]},
- {label:"Punching Above",      teams:["Saudi Arabia","Tunisia","Canada","Türkiye"]},
- {label:"Dark Horses",         teams:["Scotland","Ivory Coast","Egypt","Sweden"]},
- {label:"Outside Bets",        teams:["Australia","Austria","Ecuador","USA"]},
- {label:"Gathering Steam",     teams:["Iran","Mexico","Norway","South Korea"]},
- {label:"Serious Contenders",  teams:["Senegal","Japan","Colombia","Uruguay"]},
- {label:"The Heavyweights",    teams:["Switzerland","Morocco","Croatia","Belgium"]},
- {label:"The Big Guns",        teams:["Netherlands","Portugal","Germany","England"]},
- {label:"The Favourites 🏆",    teams:["Argentina","Brazil","France","Spain"]}
-];
+// Reveal sequence: weakest round -> strongest, flattened with each team's round index.
 const SEQ=[]; ROUNDS.forEach((r,ri)=>r.teams.forEach(n=>SEQ.push({name:n,round:ri})));
 
 // ranking: favourites first (reverse of the longshots→favourites reveal order)
 const RANK={}; [...SEQ].reverse().forEach((x,i)=>RANK[x.name]=i);
 
-// real flag images (emoji flags don't render on Windows/many devices)
-const FLAG={
- Portugal:'pt',Mexico:'mx',Argentina:'ar',Senegal:'sn',Switzerland:'ch',Austria:'at',Egypt:'eg',
- Uzbekistan:'uz','Saudi Arabia':'sa','DR Congo':'cd','Cape Verde':'cv',Czechia:'cz',Germany:'de',
- Brazil:'br',Belgium:'be',Australia:'au',Iran:'ir',Colombia:'co',Scotland:'gb-sct',Tunisia:'tn',
- 'South Africa':'za',Iraq:'iq','New Zealand':'nz','Bosnia & Herzegovina':'ba',Canada:'ca',England:'gb-eng',
- France:'fr',Morocco:'ma',Japan:'jp',Ecuador:'ec',Norway:'no','Ivory Coast':'ci',Algeria:'dz',Jordan:'jo',
- 'Curaçao':'cw',Ghana:'gh',Spain:'es',USA:'us',Netherlands:'nl',Uruguay:'uy',Croatia:'hr','South Korea':'kr',
- Panama:'pa',Paraguay:'py',Qatar:'qa',Haiti:'ht',Sweden:'se','Türkiye':'tr'
-};
-const flagImg=(name,cls)=>{const c=FLAG[name];return c?`<img class="${cls}" src="https://flagcdn.com/${c}.svg" alt="${name} flag" loading="lazy">`:`<span class="${cls}">🏳️</span>`;};
+// real flag images (emoji flags don't render on Windows/many devices); emoji is the fallback
+const flagImg=(t,cls)=>t.iso?`<img class="${cls}" src="https://flagcdn.com/${t.iso}.svg" alt="${t.n} flag" loading="lazy">`:`<span class="${cls}">${t.emoji||"🏳️"}</span>`;
 
 const icPlayer='<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="7" r="3.2"/><path d="M5.5 21a6.5 6.5 0 0 1 13 0"/></svg>';
 const icFact='<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9"/><path d="M12 16v-5M12 8h.01"/></svg>';
@@ -318,7 +362,31 @@ const icFood='<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke
 
 /* ---------------- Wallchart ---------------- */
 let learned=new Set(),filter="all",q="",storageOK=true;
+let sortBy="rank",hideOut=false;            // wallchart controls
+let done=new Set(),out=new Set(),managing=false;  // live tournament status
 const grid=document.getElementById("grid"),pills=document.getElementById("pills"),empty=document.getElementById("empty");
+
+// Fixtures come from live data (openfootball, via live.js) when available,
+// else the built-in schedule in fixtures.js.
+let _staticFx=null;
+function allFixtures(){
+  if(window.LIVE&&LIVE.ok&&LIVE.fixtures.length) return LIVE.fixtures;
+  if(!_staticFx) _staticFx=FIX.FIXTURES.map(f=>Object.assign({playable:true,finished:false,score:null,aReal:true,bReal:true},f));
+  return _staticFx;
+}
+// status helpers — manual layer (out/done) ∪ live-derived ∪ fixtures.js baseline
+const liveOut=n=>!!(window.LIVE&&LIVE.ok&&LIVE.out.has(n));
+const isOut=n=>out.has(n)||liveOut(n)||(window.FIX&&FIX.ELIMINATED.indexOf(n)!==-1);
+const isFinished=fx=>!!fx.finished||done.has(fx.id);
+const fxScore=fx=>window.LIVE?LIVE.scoreText(fx):"";
+const fxWinner=fx=>window.LIVE?LIVE.winner(fx):null;
+// next game = earliest playable, unfinished tie with neither team out (list is date-sorted)
+function currentNext(){
+  for(const fx of allFixtures()) if(fx.playable&&!isFinished(fx)&&!isOut(fx.a)&&!isOut(fx.b)) return fx;
+  return null;
+}
+const DOW=["Sun","Mon","Tue","Wed","Thu","Fri","Sat"],MON=["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+const fmtDate=d=>`${DOW[d.getDay()]} ${d.getDate()} ${MON[d.getMonth()]}`;
 
 function buildPills(){
   const defs=[["all","All",null],...Object.keys(OWNERS).map(o=>[o,ownerLabel(o),OWNERS[o].color])];
@@ -338,19 +406,29 @@ function counts(){
 function renderWall(){
   pills.querySelectorAll(".pill").forEach(b=>b.dataset.on=(filter===b.dataset.key));
   const ql=q.trim().toLowerCase();
-  const list=TEAMS.filter(t=>(filter==="all"||t.o===filter)&&(!ql||(t.n+t.p+t.food+t.fact+t.o).toLowerCase().includes(ql)));
-  list.sort((a,b)=>RANK[a.n]-RANK[b.n]); // strongest first, always (incl. when filtered)
+  const nextSet=(()=>{const fx=currentNext();return fx?new Set([fx.a,fx.b]):new Set();})();
+  let list=TEAMS.filter(t=>(filter==="all"||t.o===filter)
+    &&(!hideOut||!isOut(t.n))
+    &&(!ql||(t.n+t.player+t.food+t.factLong+t.o).toLowerCase().includes(ql)));
+  if(sortBy==="group") list.sort((a,b)=>a.group<b.group?-1:a.group>b.group?1:RANK[a.n]-RANK[b.n]);
+  else if(sortBy==="az") list.sort((a,b)=>a.n.localeCompare(b.n));
+  else list.sort((a,b)=>RANK[a.n]-RANK[b.n]); // by ranking (default): strongest first
   empty.style.display=list.length?"none":"block";
-  grid.innerHTML=list.map((t,i)=>`
-    <article class="card" data-name="${t.n}" data-learned="${learned.has(t.n)}" style="--accent:${OWNERS[t.o].color};animation-delay:${Math.min(i*28,420)}ms">
+  grid.innerHTML=list.map((t,i)=>{const learnt=learned.has(t.n),gone=isOut(t.n),nx=nextSet.has(t.n);return `
+    <article class="card${nx?' is-next':''}${gone?' is-out':''}" data-name="${t.n}" data-learned="${learnt}" role="button" tabindex="0" aria-pressed="${learnt}" aria-label="${t.n} — ${gone?"knocked out. ":""}${learnt?"learned, activate to reset":"activate when learned"}" style="--accent:${OWNERS[t.o].color};animation-delay:${Math.min(i*28,420)}ms">
+      ${gone?'<span class="outbadge">Out</span>':nx?'<span class="nextbadge">Next ⚽</span>':''}
       <span class="owner">${ownerLabel(t.o)}</span><div class="stamp">Learned</div>
-      ${flagImg(t.n,'flag')}<h3 class="name">${t.n}</h3>
-      <div class="row">${icPlayer}<div><span class="lbl">Key player</span><span class="player-name">${t.p}</span></div></div>
-      <div class="row fact">${icFact}<div><span class="lbl">Did you know</span><span class="txt">${t.fact}</span></div></div>
+      ${flagImg(t,'flag')}<h3 class="name"><span class="rank" title="Ranking">${RANK[t.n]+1}</span>${t.n}</h3>
+      <div class="row">${icPlayer}<div><span class="lbl">Key player</span><span class="player-name">${t.player}</span></div></div>
+      <div class="row fact">${icFact}<div><span class="lbl">Did you know</span><span class="txt">${t.factLong}</span></div></div>
       <div class="row">${icFood}<div><span class="lbl">Famous dish</span>${t.food}</div></div>
-      <span class="tick">${learned.has(t.n)?"✓ tap to reset":"tap when learned"}</span>
-    </article>`).join("");
-  grid.querySelectorAll(".card").forEach(c=>c.onclick=()=>{const n=c.dataset.name;learned.has(n)?learned.delete(n):learned.add(n);save();renderWall();});
+      <span class="tick">${learnt?"✓ tap to reset":"tap when learned"}</span>
+    </article>`;}).join("");
+  grid.querySelectorAll(".card").forEach(c=>{
+    const toggle=()=>{const n=c.dataset.name;learned.has(n)?learned.delete(n):learned.add(n);save();renderWall();};
+    c.onclick=toggle;
+    c.onkeydown=e=>{if(e.key===" "||e.key==="Enter"){e.preventDefault();toggle();}};
+  });
   counts(); updateProgress();
 }
 function updateProgress(){
@@ -360,9 +438,21 @@ function updateProgress(){
   const l=document.getElementById("plabel");
   l.textContent=n===48?"🏆 you know them all!":n>=24?"halfway there — keep going":"teams learned";
 }
-async function load(){try{const v=localStorage.getItem("wc26-learned");if(v)learned=new Set(JSON.parse(v));}catch(e){}}
-async function save(){try{localStorage.setItem("wc26-learned",JSON.stringify([...learned]));}catch(e){storageOK=false;const sh=document.getElementById("savehint");if(sh)sh.textContent="Progress is kept for this session only.";}}
+function load(){try{
+  const g=localStorage.getItem("wc26-learned");if(g)learned=new Set(JSON.parse(g));
+  const d=localStorage.getItem("wc26-done");if(d)done=new Set(JSON.parse(d));
+  const o=localStorage.getItem("wc26-out");if(o)out=new Set(JSON.parse(o));
+  const p=localStorage.getItem("wc26-prefs");if(p){const pf=JSON.parse(p);sortBy=pf.sortBy||sortBy;hideOut=!!pf.hideOut;managing=!!pf.managing;}
+}catch(e){storageOK=false;}}
+function save(){try{
+  localStorage.setItem("wc26-learned",JSON.stringify([...learned]));
+  localStorage.setItem("wc26-done",JSON.stringify([...done]));
+  localStorage.setItem("wc26-out",JSON.stringify([...out]));
+  localStorage.setItem("wc26-prefs",JSON.stringify({sortBy,hideOut,managing}));
+}catch(e){storageOK=false;const sh=document.getElementById("savehint");if(sh)sh.textContent="Progress is kept for this session only.";}}
 document.getElementById("search").addEventListener("input",e=>{q=e.target.value;renderWall();});
+document.getElementById("sort").addEventListener("change",e=>{sortBy=e.target.value;save();renderWall();});
+document.getElementById("hideout").addEventListener("change",e=>{hideOut=e.target.checked;save();renderWall();});
 
 /* ---------------- Reveal ---------------- */
 let idx=0, lastRound=-1;
@@ -379,14 +469,14 @@ function renderReveal(){
   document.getElementById("cornNo").textContent=idx+1;
   // front
   flip.classList.remove("flipped");
-  document.getElementById("bigflag").innerHTML=flagImg(t.n,"bigflag-img");
+  document.getElementById("bigflag").innerHTML=flagImg(t,"bigflag-img");
   // back
   const back=document.getElementById("back"); back.style.setProperty("--accent",col);
   document.getElementById("bOwner").textContent=ownerLabel(t.o);
-  document.getElementById("bFlag").innerHTML=flagImg(t.n,"bflag-img");
+  document.getElementById("bFlag").innerHTML=flagImg(t,"bflag-img");
   document.getElementById("bName").textContent=t.n;
-  document.getElementById("bPlayer").textContent=t.p;
-  document.getElementById("bFact").textContent=t.fact;
+  document.getElementById("bPlayer").textContent=t.player;
+  document.getElementById("bFact").textContent=t.factLong;
   document.getElementById("bFood").textContent=t.food;
   document.getElementById("icP").innerHTML=icPlayer;
   document.getElementById("icF").innerHTML=icFact;
@@ -400,15 +490,108 @@ function prev(){ if(idx>0){idx--;renderReveal();} }
 function showFinale(){document.getElementById("stageArea").style.display="none";document.getElementById("finale").style.display="block";}
 function restart(){idx=0;lastRound=-1;renderReveal();}
 
+/* ---------------- Next game banner ---------------- */
+function renderNextGame(){
+  const el=document.getElementById("nextgame"); if(!el)return;
+  const fx=currentNext();
+  if(!fx){el.style.display="none";return;}
+  el.style.display="flex";
+  const A=byName[fx.a],B=byName[fx.b],fu=FIX.fusionFor(fx.a,fx.b);
+  el.innerHTML=`<div style="flex:1;min-width:0">
+      <div class="ng-when">⚽ Next up · ${fmtDate(fx.when)} · ${fx.time} · ${fx.stage}</div>
+      <div class="ng-match">${flagImg(A,'flag')} ${fx.a} <span class="ng-vs">v</span> ${flagImg(B,'flag')} ${fx.b}</div>
+      <div class="ng-meal"><span class="ng-kind">${fu.kind}</span>${fu.idea}</div>
+    </div><span class="ng-arrow">→</span>`;
+  el.onclick=()=>showView('fixtures');
+}
+
+/* ---------------- Fixtures & menu ---------------- */
+function ownerChip(t){return t?`<span class="o" style="background:${OWNERS[t.o].color}">${t.o}</span>`:"";}
+function ago(ts){const s=Math.round((Date.now()-ts)/1000);if(s<60)return"just now";const m=Math.round(s/60);if(m<60)return m+" min ago";return Math.round(m/60)+"h ago";}
+function renderLivebar(){
+  const el=document.getElementById("livebar"); if(!el)return;
+  const L=window.LIVE;
+  if(L&&L.ok) el.innerHTML=`<span class="dot-live"></span>Live results · updated ${ago(L.updatedAt)} <button class="mini" id="refreshBtn">↻ Refresh</button>`;
+  else if(L&&L.fetching) el.innerHTML=`<span class="dot-wait"></span>Fetching live results…`;
+  else el.innerHTML=`<span class="dot-off"></span>Built-in schedule (live results unavailable) <button class="mini" id="refreshBtn">↻ Try again</button>`;
+  const rb=document.getElementById("refreshBtn");
+  if(rb)rb.onclick=()=>{rb.textContent="…";if(window.LIVE)LIVE.refresh(onLiveUpdate);};
+}
+function renderFixtures(){
+  const wrap=document.getElementById("fixList"); if(!wrap)return;
+  renderLivebar();
+  let html="",lastDay="";
+  allFixtures().forEach(fx=>{
+    const day=`${fmtDate(fx.when)} ${fx.when.getFullYear()}`;
+    if(day!==lastDay){html+=`<div class="fix-day">${day}</div>`;lastDay=day;}
+    if(!fx.playable){ // knockout tie not yet decided
+      html+=`<div class="fixture tbd"><div class="fix-top">
+        <span class="fix-time">${fx.time}</span>
+        <span class="fix-team muted">${fx.a}</span><span class="fix-vs">v</span><span class="fix-team muted">${fx.b}</span>
+        <span class="fix-stage">${fx.stage}</span></div>
+        <div class="fix-meal"><span class="meal-kind" style="background:var(--line)">TBD</span><span>Fusion idea once the teams are known.</span></div></div>`;
+      return;
+    }
+    const A=byName[fx.a],B=byName[fx.b],fu=FIX.fusionFor(fx.a,fx.b),fin=isFinished(fx),sc=fxScore(fx),w=fxWinner(fx);
+    html+=`<div class="fixture${fin?' done':''}" data-id="${fx.id}">
+      <div class="fix-top">
+        <span class="fix-time">${fx.time}</span>
+        <span class="fix-team${w==='a'?' win':''}">${flagImg(A,'flag')}${fx.a}${ownerChip(A)}</span>
+        <span class="fix-vs">${sc||'v'}</span>
+        <span class="fix-team${w==='b'?' win':''}">${flagImg(B,'flag')}${fx.b}${ownerChip(B)}</span>
+        <span class="fix-stage">${fx.stage}</span>
+      </div>
+      <div class="fix-meal"><span class="meal-kind">${fu.kind}</span><span>${fu.idea}</span></div>
+      <div class="fix-actions">${fx.finished?'<span class="mini" style="cursor:default">✓ Played (live)</span>':
+        `<button class="mini" data-act="done" aria-pressed="${done.has(fx.id)}">${done.has(fx.id)?'✓ Played':'Mark played'}</button>`}</div>
+    </div>`;
+  });
+  wrap.innerHTML=html;
+  wrap.querySelectorAll('.mini[data-act="done"]').forEach(b=>b.onclick=()=>{
+    const id=b.closest('.fixture').dataset.id;
+    done.has(id)?done.delete(id):done.add(id);
+    save();renderFixtures();renderNextGame();renderWall();
+  });
+  renderElim();
+}
+function renderElim(){
+  const el=document.getElementById("elimGrid"); if(!el)return;
+  const list=[...TEAMS].sort((a,b)=>RANK[a.n]-RANK[b.n]);
+  el.innerHTML=list.map(t=>`<button class="elim-chip" data-name="${t.n}" aria-pressed="${out.has(t.n)}">${t.n}</button>`).join("");
+  el.querySelectorAll(".elim-chip").forEach(b=>b.onclick=()=>{
+    const n=b.dataset.name; out.has(n)?out.delete(n):out.add(n);
+    save();renderElim();renderFixtures();renderNextGame();renderWall();
+  });
+}
+function toggleManaging(){
+  managing=!managing;
+  document.body.classList.toggle("managing",managing);
+  const b=document.getElementById("mgrToggle");
+  b.setAttribute("aria-pressed",managing); b.textContent=managing?"✓ Manager mode on":"⚙️ Manager mode";
+  document.getElementById("mgrHint").textContent=managing
+    ?"Tick games as played, and tap a team below to mark it knocked out. Saved on this device."
+    :"Turn on Manager mode to tick games as played and mark teams knocked out.";
+  save();
+}
+
+/* ---------------- Live data ---------------- */
+// Called whenever live results arrive/refresh — re-paints anything date/result driven.
+function onLiveUpdate(){
+  renderNextGame();
+  renderWall();
+  if(document.getElementById("view-fixtures").style.display!=="none") renderFixtures();
+}
+
 /* ---------------- View switching ---------------- */
+const VIEWS={wall:"view-wall",fixtures:"view-fixtures",reveal:"view-reveal"};
 function showView(v){
-  const wall=v==="wall";
-  document.getElementById("view-wall").style.display=wall?"block":"none";
-  document.getElementById("view-reveal").style.display=wall?"none":"block";
-  document.getElementById("tab-wall").setAttribute("aria-selected",wall);
-  document.getElementById("tab-reveal").setAttribute("aria-selected",!wall);
+  Object.keys(VIEWS).forEach(k=>{
+    document.getElementById(VIEWS[k]).style.display=(k===v)?"block":"none";
+    const tab=document.getElementById("tab-"+k); if(tab)tab.setAttribute("aria-selected",k===v);
+  });
   window.scrollTo({top:0,behavior:"instant"});
-  if(!wall){lastRound=-1;renderReveal();}
+  if(v==="reveal"){lastRound=-1;renderReveal();}
+  if(v==="fixtures")renderFixtures();
 }
 // keyboard on reveal
 document.addEventListener("keydown",e=>{
@@ -419,13 +602,30 @@ document.addEventListener("keydown",e=>{
 });
 
 /* ---------------- Init ---------------- */
-(async function init(){
+(function init(){
   buildPills();
-  try{ await load(); }catch(e){ storageOK=false; }
+  load();
   if(!storageOK){ const sh=document.getElementById("savehint"); if(sh) sh.textContent="Progress is kept for this session only."; }
+  // reflect restored prefs in the controls
+  document.getElementById("sort").value=sortBy;
+  document.getElementById("hideout").checked=hideOut;
+  if(managing){document.body.classList.add("managing");const b=document.getElementById("mgrToggle");b.setAttribute("aria-pressed","true");b.textContent="✓ Manager mode on";document.getElementById("mgrHint").textContent="Tick games as played, and tap a team below to mark it knocked out. Saved on this device.";}
   renderWall();
   renderReveal();
+  renderNextGame();
+  // Pull live results, then keep them fresh: every 5 min, and whenever the
+  // page regains focus (e.g. someone reopens it mid-tournament).
+  if(window.LIVE){
+    LIVE.init(onLiveUpdate);
+    setInterval(()=>LIVE.refresh(onLiveUpdate),5*60*1000);
+    document.addEventListener("visibilitychange",()=>{if(!document.hidden)LIVE.refresh(onLiveUpdate);});
+  }
 })();
+
+// Offline support — register the service worker (https/localhost only; skipped on file://)
+if("serviceWorker" in navigator && location.protocol.startsWith("http")){
+  window.addEventListener("load",()=>navigator.serviceWorker.register("sw.js").catch(()=>{}));
+}
 </script>
 </body>
 </html>

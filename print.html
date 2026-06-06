@@ -4,10 +4,13 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>World Cup 2026 — Printable Sweepstake Sheets</title>
+<meta name="description" content="Printable A4 sweepstake sheets for the 2026 World Cup — one per person, with group games and knockout tracking.">
+<meta name="theme-color" content="#1b2236">
 <link rel="icon" href="icon.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,700;12..96,800&family=Spline+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,700;12..96,800&family=Spline+Sans:wght@400;500;600;700&display=swap');
-
 :root{
   --paper:#f3ead6; --ink:#1b2236; --ink-soft:#54597a; --line:#c9b78f; --gold:#c8922b;
   --mum:#2563eb; --dad:#15803d; --eli:#d9881f; --isaac:#d4322c;
@@ -76,69 +79,13 @@ body{font-family:"Spline Sans",sans-serif;color:var(--ink);background:#e9dcbf;li
 
 <div class="sheets" id="sheets"></div>
 
+<script src="teams.js"></script>
 <script>
-const COLORS={Mum:'#2563eb',Dad:'#15803d','Eli & Reachy':'#d9881f',Isaac:'#d4322c'};
-// owner label used on sheets ↔ data owner key
-const SHEETS=[
-  {label:'Mum', owner:'Mum'},
-  {label:'Dad', owner:'Dad'},
-  {label:'Eli & Reachy', owner:'Eli'},
-  {label:'Isaac', owner:'Isaac'},
-];
-
-const TEAMS=[
-  {o:'Mum',n:'Portugal',c:'PT',g:'K',p:'Cristiano Ronaldo',fact:'All-time top scorer in men’s international football.',dish:'Pastéis de nata'},
-  {o:'Mum',n:'Mexico',c:'MX',g:'A',p:'Santiago Giménez',fact:'First nation to host three World Cups (1970, 1986, 2026).',dish:'Tacos al pastor'},
-  {o:'Mum',n:'Argentina',c:'AR',g:'J',p:'Lionel Messi',fact:'Reigning world champions (2022).',dish:'Asado'},
-  {o:'Mum',n:'Senegal',c:'SN',g:'I',p:'Sadio Mané',fact:'African champions in 2022.',dish:'Thiéboudienne'},
-  {o:'Mum',n:'Switzerland',c:'CH',g:'B',p:'Granit Xhaka',fact:'Home of FIFA, in Zurich.',dish:'Fondue'},
-  {o:'Mum',n:'Austria',c:'AT',g:'J',p:'David Alaba',fact:'Third at the 1954 World Cup.',dish:'Wiener schnitzel'},
-  {o:'Mum',n:'Egypt',c:'EG',g:'G',p:'Mohamed Salah',fact:'Record 7-time African Cup winners.',dish:'Koshari'},
-  {o:'Mum',n:'Uzbekistan',c:'UZ',g:'K',p:'Eldor Shomurodov',fact:'Their very first World Cup.',dish:'Plov'},
-  {o:'Mum',n:'Saudi Arabia',c:'SA',g:'H',p:'Salem Al-Dawsari',fact:'Beat Argentina in 2022.',dish:'Kabsa'},
-  {o:'Mum',n:'DR Congo',c:'CD',g:'K',p:'Yoane Wissa',fact:'First World Cup since 1974.',dish:'Moambe chicken'},
-  {o:'Mum',n:'Cape Verde',c:'CV',g:'H',p:'Ryan Mendes',fact:'Islands of ~500k at their first World Cup.',dish:'Cachupa'},
-  {o:'Mum',n:'Czechia',c:'CZ',g:'A',p:'Patrik Schick',fact:'Twice runners-up as Czechoslovakia.',dish:'Svíčková'},
-
-  {o:'Dad',n:'Germany',c:'DE',g:'E',p:'Jamal Musiala',fact:'Four-time world champions.',dish:'Bratwurst'},
-  {o:'Dad',n:'Brazil',c:'BR',g:'C',p:'Vinícius Júnior',fact:'Record five World Cup titles.',dish:'Feijoada'},
-  {o:'Dad',n:'Belgium',c:'BE',g:'G',p:'Kevin De Bruyne',fact:'Third place in 2018.',dish:'Frites'},
-  {o:'Dad',n:'Australia',c:'AU',g:'D',p:'Mat Ryan',fact:'The Socceroos.',dish:'Meat pie'},
-  {o:'Dad',n:'Iran',c:'IR',g:'G',p:'Mehdi Taremi',fact:'Among Asia’s most experienced sides.',dish:'Chelo kabab'},
-  {o:'Dad',n:'Colombia',c:'CO',g:'K',p:'Luis Díaz',fact:'Quarter-finalists in 2014.',dish:'Bandeja paisa'},
-  {o:'Dad',n:'Scotland',c:'SCO',g:'C',p:'Andrew Robertson',fact:'Played the first-ever international (1872).',dish:'Haggis'},
-  {o:'Dad',n:'Tunisia',c:'TN',g:'F',p:'Hannibal Mejbri',fact:'Beat France in 2022.',dish:'Brik'},
-  {o:'Dad',n:'South Africa',c:'ZA',g:'A',p:'Percy Tau',fact:'Hosted the first African World Cup (2010).',dish:'Bobotie'},
-  {o:'Dad',n:'Iraq',c:'IQ',g:'I',p:'Aymen Hussein',fact:'Won the 2007 Asian Cup.',dish:'Masgouf'},
-  {o:'Dad',n:'New Zealand',c:'NZ',g:'G',p:'Chris Wood',fact:'Unbeaten at the 2010 World Cup.',dish:'Hāngī'},
-  {o:'Dad',n:'Bosnia & Herzegovina',c:'BA',g:'B',p:'Edin Džeko',fact:'First World Cup in 2014.',dish:'Ćevapi'},
-
-  {o:'Eli',n:'Canada',c:'CA',g:'B',p:'Alphonso Davies',fact:'Co-hosts — only their 3rd World Cup.',dish:'Poutine'},
-  {o:'Eli',n:'England',c:'ENG',g:'L',p:'Jude Bellingham',fact:'Last won the trophy in 1966.',dish:'Fish & chips'},
-  {o:'Eli',n:'France',c:'FR',g:'I',p:'Kylian Mbappé',fact:'Champions 2018, runners-up 2022.',dish:'Coq au vin'},
-  {o:'Eli',n:'Morocco',c:'MA',g:'C',p:'Achraf Hakimi',fact:'First African semi-finalists (2022).',dish:'Tagine'},
-  {o:'Eli',n:'Japan',c:'JP',g:'F',p:'Kaoru Mitoma',fact:'Fans clean the stadium after games.',dish:'Sushi'},
-  {o:'Eli',n:'Ecuador',c:'EC',g:'E',p:'Moisés Caicedo',fact:'Play home games at 2,800m altitude.',dish:'Encebollado'},
-  {o:'Eli',n:'Norway',c:'NO',g:'I',p:'Erling Haaland',fact:'Back since 1998.',dish:'Brunost'},
-  {o:'Eli',n:'Ivory Coast',c:'CI',g:'E',p:'Sébastien Haller',fact:'African champions 2023.',dish:'Attiéké'},
-  {o:'Eli',n:'Algeria',c:'DZ',g:'J',p:'Riyad Mahrez',fact:'Stunned West Germany in 1982.',dish:'Couscous'},
-  {o:'Eli',n:'Jordan',c:'JO',g:'J',p:'Mousa Al-Tamari',fact:'First World Cup; 2023 Asian Cup finalists.',dish:'Mansaf'},
-  {o:'Eli',n:'Curaçao',c:'CW',g:'E',p:'Leandro Bacuna',fact:'Smallest nation ever to qualify.',dish:'Keshi yena'},
-  {o:'Eli',n:'Ghana',c:'GH',g:'L',p:'Mohammed Kudus',fact:'A penalty from the 2010 semis.',dish:'Jollof rice'},
-
-  {o:'Isaac',n:'Spain',c:'ES',g:'H',p:'Lamine Yamal',fact:'European champions (Euro 2024).',dish:'Paella'},
-  {o:'Isaac',n:'USA',c:'US',g:'D',p:'Christian Pulisic',fact:'Co-hosts; first men’s WC since 1994.',dish:'Cheeseburger'},
-  {o:'Isaac',n:'Netherlands',c:'NL',g:'F',p:'Virgil van Dijk',fact:'Three-time runners-up, never won.',dish:'Stroopwafel'},
-  {o:'Isaac',n:'Uruguay',c:'UY',g:'H',p:'Federico Valverde',fact:'Won the first World Cup (1930).',dish:'Chivito'},
-  {o:'Isaac',n:'Croatia',c:'HR',g:'L',p:'Luka Modrić',fact:'2018 finalists, 2022 semis.',dish:'Peka'},
-  {o:'Isaac',n:'South Korea',c:'KR',g:'A',p:'Son Heung-min',fact:'Semi-finalists as hosts in 2002.',dish:'Bibimbap'},
-  {o:'Isaac',n:'Panama',c:'PA',g:'L',p:'Adalberto Carrasquilla',fact:'Only their 2nd-ever World Cup.',dish:'Sancocho'},
-  {o:'Isaac',n:'Paraguay',c:'PY',g:'D',p:'Miguel Almirón',fact:'“Sopa paraguaya” is actually cornbread.',dish:'Chipá'},
-  {o:'Isaac',n:'Qatar',c:'QA',g:'B',p:'Akram Afif',fact:'Hosted the 2022 World Cup.',dish:'Machboos'},
-  {o:'Isaac',n:'Haiti',c:'HT',g:'C',p:'Frantzdy Pierrot',fact:'Back since 1974.',dish:'Griot'},
-  {o:'Isaac',n:'Sweden',c:'SE',g:'F',p:'Alexander Isak',fact:'Third in 1950 and 1994.',dish:'Köttbullar'},
-  {o:'Isaac',n:'Türkiye',c:'TR',g:'D',p:'Arda Güler',fact:'Surprise third place in 2002.',dish:'Kebab & baklava'},
-];
+// All team data lives in teams.js (single source of truth, shared with index.html).
+const TEAMS=WC.TEAMS;
+const COLORS={}; Object.keys(WC.OWNERS).forEach(k=>COLORS[k]=WC.OWNERS[k].color);
+// One A4 sheet per owner, in the order they appear in the shared data.
+const SHEETS=Object.keys(WC.OWNERS).map(k=>({label:WC.ownerLabel(k),owner:k}));
 
 function reachyMascot(){
   return `<svg class="mascot" viewBox="0 0 100 100">
@@ -152,15 +99,15 @@ function reachyMascot(){
 }
 
 function teamCard(t){
-  const color=COLORS[t.o] || (t.o==='Eli'?'#d9881f':'#333');
+  const color=COLORS[t.o] || '#333';
   return `<div class="team">
     <div class="top">
-      <span class="code" style="background:${color}">${t.c}</span>
+      <span class="code" style="background:${color}">${t.code}</span>
       <span class="cn">${t.n}</span>
-      <span class="grp">Grp ${t.g}</span>
+      <span class="grp">Grp ${t.group}</span>
     </div>
-    <div class="player">⭐ ${t.p}</div>
-    <div class="fact">${t.fact}</div>
+    <div class="player">⭐ ${t.player}</div>
+    <div class="fact">${t.factShort}</div>
     <div class="dish">🍽 ${t.dish}</div>
     <div class="track">
       <span class="lbl">Games</span>
@@ -172,7 +119,7 @@ function teamCard(t){
 
 const root=document.getElementById('sheets');
 root.innerHTML = SHEETS.map(s=>{
-  const color=COLORS[s.label];
+  const color=COLORS[s.owner];
   const mine=TEAMS.filter(t=>t.o===s.owner);
   const isEli=s.owner==='Eli';
   return `<section class="sheet">

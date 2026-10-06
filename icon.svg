@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64" role="img" aria-label="World Cup sweepstake">
+  <rect width="64" height="64" rx="14" fill="#1b2236"/>
+  <circle cx="32" cy="32" r="20" fill="#f3ead6"/>
+  <!-- classic football pentagon + seams -->
+  <polygon points="32,21 39,26 36,34 28,34 25,26" fill="#1b2236"/>
+  <g stroke="#1b2236" stroke-width="2.4" fill="none" stroke-linecap="round">
+    <path d="M32 12 32 21"/>
+    <path d="M52 32 39 26"/>
+    <path d="M44 52 36 34"/>
+    <path d="M20 52 28 34"/>
+    <path d="M12 32 25 26"/>
+  </g>
+  <circle cx="32" cy="32" r="20" fill="none" stroke="#c8922b" stroke-width="2.5"/>
+</svg>

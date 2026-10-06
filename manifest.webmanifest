@@ -1,0 +1,13 @@
+{
+  "name": "World Cup 2026 — Family Sweepstake",
+  "short_name": "WC Sweepstake",
+  "description": "A family sweepstake wallchart and reveal for the 2026 World Cup — 48 teams, four players.",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#f3ead6",
+  "theme_color": "#1b2236",
+  "icons": [
+    { "src": "icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any maskable" }
+  ]
+}
